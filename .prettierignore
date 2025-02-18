@@ -1,0 +1,3 @@
+packages/**/*.d.ts
+packages/**/*.js
+# EditorConfig is awesome: https://EditorConfig.org
