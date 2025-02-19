@@ -11,6 +11,8 @@ import { ReviewsModule } from './reviews/reviews.module';
 import { ToursModule } from './tours/tours.module';
 import { UsersModule } from './users/users.module';
 import environmentValidation from './lib/config/environment.validation';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { TimeoutInterceptor } from './lib/common/interceptors/timeout.interceptor';
 
 @Module({
   imports: [
@@ -46,6 +48,12 @@ import environmentValidation from './lib/config/environment.validation';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TimeoutInterceptor,
+    },
+  ],
 })
 export class AppModule {}
