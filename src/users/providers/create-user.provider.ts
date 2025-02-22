@@ -1,5 +1,7 @@
 import {
   BadRequestException,
+  forwardRef,
+  Inject,
   Injectable,
   RequestTimeoutException,
 } from '@nestjs/common';
@@ -8,6 +10,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { User } from '../user.entity';
 import { FindOneUserByProvider } from './find-one-user-by.provider';
+import { HashingProvider } from 'src/auth/providers/hashing.provider';
 
 @Injectable()
 export class CreateUserProvider {
@@ -16,7 +19,10 @@ export class CreateUserProvider {
     private readonly usersRepository: Repository<User>,
 
     private readonly findOneUserByProvider: FindOneUserByProvider,
-  ) {}
+
+    @Inject(forwardRef(() => HashingProvider))
+    private readonly hashingProvider: HashingProvider,
+  ) { }
 
   public async create(createUserDto: CreateUserDto) {
     console.log('create user...');
@@ -35,7 +41,10 @@ export class CreateUserProvider {
       throw new BadRequestException('User already exists');
     }
 
-    user = this.usersRepository.create(createUserDto);
+    user = this.usersRepository.create({
+      ...createUserDto,
+      password: await this.hashingProvider.hashPassword(createUserDto.password),
+    });
 
     try {
       user = await this.usersRepository.save(user);
@@ -43,7 +52,7 @@ export class CreateUserProvider {
       console.log(err);
       throw new RequestTimeoutException(
         (err as Error).message ||
-          'Unable to create a user at the moment please try again.',
+        'Unable to create a user at the moment please try again.',
       );
     }
 
