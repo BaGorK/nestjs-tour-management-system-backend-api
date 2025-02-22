@@ -3,10 +3,10 @@ import {
   Injectable,
   RequestTimeoutException,
 } from '@nestjs/common';
-import { UpdateUserDto } from '../dtos/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../user.entity';
 import { Repository } from 'typeorm';
+import { UpdateUserDto } from '../dtos/update-user.dto';
+import { User } from '../user.entity';
 import { FindOneUserByProvider } from './find-one-user-by.provider';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class UpdateUserProvider {
     private readonly usersRepository: Repository<User>,
 
     private readonly findOneUserByProvider: FindOneUserByProvider,
-  ) {}
+  ) { }
 
   public async update(id: string, updateUserDto: UpdateUserDto) {
     console.log('update user...');
@@ -27,7 +27,6 @@ export class UpdateUserProvider {
     }
 
     // check if email is provided and is different from the current email
-    console.log(updateUserDto);
     if (updateUserDto.email && updateUserDto.email !== user.email) {
       const userExists = await this.findOneUserByProvider.findOneUserBy({
         email: updateUserDto.email,
@@ -58,7 +57,7 @@ export class UpdateUserProvider {
       console.log(err);
       throw new RequestTimeoutException(
         (err as Error).message ||
-          'Unable to update user at the moment please try again.',
+        'Unable to update user at the moment please try again.',
       );
     }
   }
