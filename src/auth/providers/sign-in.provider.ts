@@ -1,12 +1,20 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, Inject } from '@nestjs/common';
 import { UsersService } from 'src/users/providers/users.service';
 import { SignInDto } from '../dtos/sign-in.dto';
 import { HashingProvider } from './hashing.provider';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigType } from '@nestjs/config';
+import jwtConfig from '../config/jwt.config';
 
 export class SignInProvider {
   constructor(
     private readonly usersService: UsersService,
     private readonly hashingProvider: HashingProvider,
+
+    private readonly jwtService: JwtService,
+
+    @Inject(jwtConfig.KEY)
+    private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
   ) {}
 
   public async signIn(signInDto: SignInDto) {
@@ -34,6 +42,25 @@ export class SignInProvider {
       }
 
       // jwt sign the user
+      const accessToken = await this.jwtService.signAsync(
+        {
+          sub: user.id,
+          email: user.email,
+        },
+        {
+          secret: this.jwtConfiguration.secret,
+          audience: this.jwtConfiguration.audience,
+          issuer: this.jwtConfiguration.issuer,
+          expiresIn: this.jwtConfiguration.accessTokenTtl,
+        },
+      );
+
+      return {
+        status: 'success',
+        message: 'sign in successful',
+        accessToken,
+        data: user,
+      };
     } catch (err) {
       console.log(err);
       throw new BadRequestException(
