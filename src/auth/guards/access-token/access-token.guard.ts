@@ -26,7 +26,7 @@ export class AccessTokenGuard implements CanActivate {
     const token = this.extrractTokenFromRequestHeader(request);
 
     if (!token) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('you are not logged in');
     }
 
     try {
@@ -37,7 +37,7 @@ export class AccessTokenGuard implements CanActivate {
 
       request[REQUEST_USER_KEY] = payload;
     } catch {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('invalid token or expired token');
     }
 
     return true;
