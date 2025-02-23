@@ -11,6 +11,7 @@ import { BcryptProvider } from './providers/bcrypt.provider';
 import { HashingProvider } from './providers/hashing.provider';
 import { SignInProvider } from './providers/sign-in.provider';
 import { SignUpProvider } from './providers/sign-up.provider';
+import { AuthenticationGuard } from './guards/authentication/authentication.guard';
 
 @Module({
   controllers: [AuthController],
@@ -18,13 +19,14 @@ import { SignUpProvider } from './providers/sign-up.provider';
     AuthService,
     SignInProvider,
     SignUpProvider,
+    AccessTokenGuard,
     {
       provide: HashingProvider, // when the HashingProvider is requested, return the BcryptProvider
       useClass: BcryptProvider,
     },
     {
       provide: APP_GUARD,
-      useClass: AccessTokenGuard,
+      useClass: AuthenticationGuard,
     },
   ],
   exports: [AuthService, HashingProvider],
