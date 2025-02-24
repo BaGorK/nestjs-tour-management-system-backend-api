@@ -6,12 +6,12 @@ import { UsersModule } from 'src/users/users.module';
 import { AuthController } from './auth.controller';
 import jwtConfig from './config/jwt.config';
 import { AccessTokenGuard } from './guards/access-token/access-token.guard';
+import { AuthenticationGuard } from './guards/authentication/authentication.guard';
 import { AuthService } from './providers/auth.service';
 import { BcryptProvider } from './providers/bcrypt.provider';
 import { HashingProvider } from './providers/hashing.provider';
 import { SignInProvider } from './providers/sign-in.provider';
 import { SignUpProvider } from './providers/sign-up.provider';
-import { AuthenticationGuard } from './guards/authentication/authentication.guard';
 
 @Module({
   controllers: [AuthController],
