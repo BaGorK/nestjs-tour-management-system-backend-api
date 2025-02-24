@@ -1,11 +1,9 @@
-import { BadRequestException, Inject } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/providers/users.service';
 import { SignInDto } from '../dtos/sign-in.dto';
+import { GenerateTokenProvider } from './generate-token.provider';
 import { HashingProvider } from './hashing.provider';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigType } from '@nestjs/config';
-import jwtConfig from '../config/jwt.config';
-import { ActiveUserData } from '../interfaces/active-user-data.interface';
 
 export class SignInProvider {
   constructor(
@@ -14,8 +12,7 @@ export class SignInProvider {
 
     private readonly jwtService: JwtService,
 
-    @Inject(jwtConfig.KEY)
-    private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
+    private readonly generateTokenProvider: GenerateTokenProvider,
   ) {}
 
   public async signIn(signInDto: SignInDto) {
@@ -43,23 +40,14 @@ export class SignInProvider {
       }
 
       // jwt sign the user
-      const accessToken = await this.jwtService.signAsync(
-        {
-          sub: user.id,
-          email: user.email,
-        } as ActiveUserData,
-        {
-          secret: this.jwtConfiguration.secret,
-          audience: this.jwtConfiguration.audience,
-          issuer: this.jwtConfiguration.issuer,
-          expiresIn: this.jwtConfiguration.accessTokenTtl,
-        },
-      );
+      const { accessToken, refreshToken } =
+        await this.generateTokenProvider.generateToken(user);
 
       return {
         status: 'success',
         message: 'sign in successful',
         accessToken,
+        refreshToken,
         data: user,
       };
     } catch (err) {

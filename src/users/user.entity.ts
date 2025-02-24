@@ -32,5 +32,5 @@ export class User {
     enum: UserRole,
     default: UserRole.USER,
   })
-  role: string;
+  role: UserRole;
 }
