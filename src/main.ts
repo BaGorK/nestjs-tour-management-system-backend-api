@@ -1,6 +1,8 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AppModule } from './app.module';
+import { TimeoutInterceptor } from './lib/common/interceptors/timeout.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,7 +24,23 @@ async function bootstrap() {
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, documentFactory);
 
-  // enable cor
+  // global pipes
+  app.useGlobalPipes(
+    new ValidationPipe({
+      // properties that does not exist in the dto will be stripped
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+    }),
+  );
+
+  // global interceptors
+  app.useGlobalInterceptors(new TimeoutInterceptor());
+
+  // enable cors
   app.enableCors();
 
   await app.listen(5000);
