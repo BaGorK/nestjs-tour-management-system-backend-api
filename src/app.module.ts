@@ -10,14 +10,14 @@ import jwtConfig from './auth/config/jwt.config';
 import { AccessTokenGuard } from './auth/guards/access-token/access-token.guard';
 import { AuthenticationGuard } from './auth/guards/authentication/authentication.guard';
 import { BookingsModule } from './bookings/bookings.module';
-import { TimeoutInterceptor } from './lib/common/interceptors/timeout.interceptor';
+import { DataResponseInterceptor } from './lib/common/interceptors/data-response/data-response.interceptor';
+import { TimeoutInterceptor } from './lib/common/interceptors/timeout/timeout.interceptor';
 import appConfig from './lib/config/app.config';
 import databaseConfig from './lib/config/database.config';
 import environmentValidation from './lib/config/environment.validation';
 import { ReviewsModule } from './reviews/reviews.module';
 import { ToursModule } from './tours/tours.module';
 import { UsersModule } from './users/users.module';
-import { DataResponseInterceptor } from './lib/common/interceptors/data-response.interceptor';
 
 @Module({
   imports: [
