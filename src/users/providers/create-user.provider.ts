@@ -22,7 +22,7 @@ export class CreateUserProvider {
 
     @Inject(forwardRef(() => HashingProvider))
     private readonly hashingProvider: HashingProvider,
-  ) { }
+  ) {}
 
   public async create(createUserDto: CreateUserDto) {
     console.log('create user...');
@@ -52,7 +52,7 @@ export class CreateUserProvider {
       console.log(err);
       throw new RequestTimeoutException(
         (err as Error).message ||
-        'Unable to create a user at the moment please try again.',
+          'Unable to create a user at the moment please try again.',
       );
     }
 
