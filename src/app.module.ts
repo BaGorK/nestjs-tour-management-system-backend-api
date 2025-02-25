@@ -1,18 +1,22 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import jwtConfig from './auth/config/jwt.config';
+import { AccessTokenGuard } from './auth/guards/access-token/access-token.guard';
+import { AuthenticationGuard } from './auth/guards/authentication/authentication.guard';
 import { BookingsModule } from './bookings/bookings.module';
+import { TimeoutInterceptor } from './lib/common/interceptors/timeout.interceptor';
 import appConfig from './lib/config/app.config';
 import databaseConfig from './lib/config/database.config';
+import environmentValidation from './lib/config/environment.validation';
 import { ReviewsModule } from './reviews/reviews.module';
 import { ToursModule } from './tours/tours.module';
 import { UsersModule } from './users/users.module';
-import environmentValidation from './lib/config/environment.validation';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-import { TimeoutInterceptor } from './lib/common/interceptors/timeout.interceptor';
 
 @Module({
   imports: [
@@ -46,6 +50,9 @@ import { TimeoutInterceptor } from './lib/common/interceptors/timeout.intercepto
         },
       }),
     }),
+
+    ConfigModule.forFeature(jwtConfig),
+    JwtModule.registerAsync(jwtConfig.asProvider()),
   ],
   controllers: [AppController],
   providers: [
@@ -54,6 +61,11 @@ import { TimeoutInterceptor } from './lib/common/interceptors/timeout.intercepto
       provide: APP_INTERCEPTOR,
       useClass: TimeoutInterceptor,
     },
+    {
+      provide: APP_GUARD,
+      useClass: AuthenticationGuard,
+    },
+    AccessTokenGuard,
   ],
 })
 export class AppModule {}
