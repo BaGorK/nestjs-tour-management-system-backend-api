@@ -13,7 +13,7 @@ async function bootstrap() {
     .setVersion('1.0.0')
     .addServer(
       ENV === 'development'
-        ? 'http://localhost:3000'
+        ? 'http://localhost:5000'
         : 'https://tour-management-system.render.com',
     )
     .addBearerAuth() // Add Bearer token support
@@ -22,6 +22,9 @@ async function bootstrap() {
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, documentFactory);
 
-  await app.listen(3000);
+  // enable cor
+  app.enableCors();
+
+  await app.listen(5000);
 }
 bootstrap();
