@@ -44,7 +44,7 @@ export class GoogleAuthenticationService implements OnModuleInit {
         family_name: lastName,
         picture: profilePicture,
       } = loginTicket.getPayload();
-      const user = await this.usersService.findOneUserBy({ email, googleId });
+      const user = await this.usersService.findOneUserBy({ email });
 
       if (user) {
         return this.generateTokenProvider.generateToken(user);
