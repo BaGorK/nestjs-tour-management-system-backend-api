@@ -17,6 +17,7 @@ import environmentValidation from './lib/config/environment.validation';
 import { ReviewsModule } from './reviews/reviews.module';
 import { ToursModule } from './tours/tours.module';
 import { UsersModule } from './users/users.module';
+import { DataResponseInterceptor } from './lib/common/interceptors/data-response.interceptor';
 
 @Module({
   imports: [
@@ -60,6 +61,10 @@ import { UsersModule } from './users/users.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: TimeoutInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: DataResponseInterceptor,
     },
     {
       provide: APP_GUARD,
