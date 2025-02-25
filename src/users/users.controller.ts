@@ -10,7 +10,13 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiTags,
+} from '@nestjs/swagger';
 import { UsersService } from './providers/users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -35,6 +41,7 @@ export class UsersController {
     summary: 'Find all users',
     description: 'Find all users',
   })
+  @ApiBearerAuth()
   @Get()
   public findAllUsers() {
     return this.usersService.findAll();
@@ -51,6 +58,7 @@ export class UsersController {
     description: 'user id',
     required: true,
   })
+  @ApiBearerAuth()
   @Get(':id')
   public findUserById(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.findById(id);
@@ -66,6 +74,7 @@ export class UsersController {
     type: CreateUserDto,
     description: 'create user dto',
   })
+  @ApiBearerAuth()
   @Post()
   public createUser(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
@@ -86,6 +95,7 @@ export class UsersController {
     type: UpdateUserDto,
     description: 'update user dto',
   })
+  @ApiBearerAuth()
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
   public updateUser(
@@ -106,6 +116,7 @@ export class UsersController {
     description: 'user id',
     required: true,
   })
+  @ApiBearerAuth()
   @Delete(':id')
   public deleteUser(@Param('id') id: string) {
     return this.usersService.deleteUser(id);
