@@ -13,6 +13,8 @@ import { SignInProvider } from './providers/sign-in.provider';
 import { SignUpProvider } from './providers/sign-up.provider';
 import { GoogleAuthenticationController } from './social/google-authentication.controller';
 import { GoogleAuthenticationService } from './social/providers/google-authentication.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from 'src/users/user.entity';
 
 @Module({
   controllers: [AuthController, GoogleAuthenticationController],
@@ -30,6 +32,7 @@ import { GoogleAuthenticationService } from './social/providers/google-authentic
   ],
   exports: [AuthService, HashingProvider],
   imports: [
+    TypeOrmModule.forFeature([User]),
     forwardRef(() => UsersModule),
     ConfigModule.forFeature(jwtConfig),
     JwtModule.registerAsync(jwtConfig.asProvider()),

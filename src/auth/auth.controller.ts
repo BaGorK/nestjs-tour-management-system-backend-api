@@ -1,10 +1,11 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Auth } from './decorator/auth.decorator';
+import { RefreshTokenDto } from './dtos/refresh-token.dto';
 import { SignInDto } from './dtos/sign-in.dto';
+import { SignUpDto } from './dtos/sign-up.dto';
 import { AuthType } from './enums/auth-type.enum';
 import { AuthService } from './providers/auth.service';
-import { RefreshTokenDto } from './dtos/refresh-token.dto';
 
 @Controller('/api/v1/auth')
 @ApiTags('auth')
@@ -23,6 +24,19 @@ export class AuthController {
   @Auth(AuthType.None)
   public async signIn(@Body() signInDto: SignInDto) {
     return this.authService.signIn(signInDto);
+  }
+
+  @ApiOperation({
+    summary: 'Sign up a user',
+  })
+  @ApiBody({
+    type: SignUpDto,
+    description: 'Sign up a user',
+  })
+  @Post('sign-up')
+  @Auth(AuthType.None)
+  public async signUp(@Body() signUpDto: SignUpDto) {
+    return this.authService.signUp(signUpDto);
   }
 
   @ApiOperation({
