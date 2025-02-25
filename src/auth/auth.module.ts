@@ -1,39 +1,36 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from 'src/users/users.module';
 import { AuthController } from './auth.controller';
 import jwtConfig from './config/jwt.config';
-import { AccessTokenGuard } from './guards/access-token/access-token.guard';
-import { AuthenticationGuard } from './guards/authentication/authentication.guard';
 import { AuthService } from './providers/auth.service';
 import { BcryptProvider } from './providers/bcrypt.provider';
+import { GenerateTokenProvider } from './providers/generate-token.provider';
 import { HashingProvider } from './providers/hashing.provider';
+import { RefreshTokensProvider } from './providers/refresh-tokens.provider';
 import { SignInProvider } from './providers/sign-in.provider';
 import { SignUpProvider } from './providers/sign-up.provider';
-import { GenerateTokenProvider } from './providers/generate-token.provider';
+import { GoogleAuthenticationController } from './social/google-authentication.controller';
+import { GoogleAuthenticationService } from './social/providers/google-authentication.service';
 
 @Module({
-  controllers: [AuthController],
+  controllers: [AuthController, GoogleAuthenticationController],
   providers: [
     AuthService,
     SignInProvider,
     SignUpProvider,
-    AccessTokenGuard,
     {
       provide: HashingProvider, // when the HashingProvider is requested, return the BcryptProvider
       useClass: BcryptProvider,
     },
-    {
-      provide: APP_GUARD,
-      useClass: AuthenticationGuard,
-    },
     GenerateTokenProvider,
+    RefreshTokensProvider,
+    GoogleAuthenticationService,
   ],
   exports: [AuthService, HashingProvider],
   imports: [
-    UsersModule,
+    forwardRef(() => UsersModule),
     ConfigModule.forFeature(jwtConfig),
     JwtModule.registerAsync(jwtConfig.asProvider()),
   ],

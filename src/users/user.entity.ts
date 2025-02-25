@@ -18,9 +18,14 @@ export class User {
   email: string;
 
   @Column({
-    nullable: false,
+    nullable: true,
   })
-  password: string;
+  password?: string;
+
+  @Column({
+    nullable: true,
+  })
+  googleId?: string;
 
   @Column({
     nullable: true,

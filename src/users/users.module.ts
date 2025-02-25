@@ -8,6 +8,7 @@ import { UsersService } from './providers/users.service';
 import { User } from './user.entity';
 import { UsersController } from './users.controller';
 import { AuthModule } from 'src/auth/auth.module';
+import { CreateGoogleUserProvider } from './providers/create-google-user.provider';
 
 @Module({
   controllers: [UsersController],
@@ -17,8 +18,9 @@ import { AuthModule } from 'src/auth/auth.module';
     FindAllUsersProvider,
     UpdateUserProvider,
     FindOneUserByProvider,
+    CreateGoogleUserProvider,
   ],
   imports: [TypeOrmModule.forFeature([User]), forwardRef(() => AuthModule)],
   exports: [UsersService],
 })
-export class UsersModule { }
+export class UsersModule {}

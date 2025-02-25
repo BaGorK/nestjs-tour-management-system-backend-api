@@ -7,7 +7,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { UpdateUserDto } from '../dtos/update-user.dto';
+import { IGoogleUser } from '../interfaces/google-user.interface';
 import { User } from '../user.entity';
+import { CreateGoogleUserProvider } from './create-google-user.provider';
 import { CreateUserProvider } from './create-user.provider';
 import { FindAllUsersProvider } from './find-all-users.provider';
 import { FindOneUserByProvider } from './find-one-user-by.provider';
@@ -32,7 +34,9 @@ export class UsersService {
     private readonly findAllUsersProvider: FindAllUsersProvider,
     private readonly updateUserProvider: UpdateUserProvider,
     private readonly findOneUserByProvider: FindOneUserByProvider,
+    private readonly createGoogleUserProvider: CreateGoogleUserProvider,
   ) {}
+
   public async findAll() {
     return this.findAllUsersProvider.findAll();
   }
@@ -85,5 +89,9 @@ export class UsersService {
 
   public async findOneUserBy(options: Partial<User>) {
     return this.findOneUserByProvider.findOneUserBy(options);
+  }
+
+  public async createGoogleUser(googleUser: IGoogleUser) {
+    return this.createGoogleUserProvider.createGoogleUser(googleUser);
   }
 }
