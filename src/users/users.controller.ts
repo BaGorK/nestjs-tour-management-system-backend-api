@@ -1,5 +1,6 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -9,6 +10,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -26,6 +28,7 @@ import { UpdateUserDto } from './dtos/update-user.dto';
  */
 @Controller('/api/v1/users')
 @ApiTags('users')
+@UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {
   constructor(
     /**
