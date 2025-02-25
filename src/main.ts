@@ -23,6 +23,9 @@ async function bootstrap() {
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, documentFactory);
 
+  // global prefix
+  app.setGlobalPrefix('api/v1');
+
   // global pipes
   app.useGlobalPipes(
     new ValidationPipe({

@@ -26,7 +26,7 @@ import { UserRole } from './enums/user-role.enum';
 /**
  * Users Controller
  */
-@Controller('/api/v1/users')
+@Controller('users')
 @ApiTags('users')
 @Role(UserRole.ADMIN)
 export class UsersController {

@@ -7,7 +7,7 @@ import { SignUpDto } from './dtos/sign-up.dto';
 import { AuthType } from './enums/auth-type.enum';
 import { AuthService } from './providers/auth.service';
 
-@Controller('/api/v1/auth')
+@Controller('auth')
 @ApiTags('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
