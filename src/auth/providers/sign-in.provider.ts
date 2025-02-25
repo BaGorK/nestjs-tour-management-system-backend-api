@@ -1,4 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, forwardRef, Inject } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/providers/users.service';
 import { SignInDto } from '../dtos/sign-in.dto';
@@ -7,7 +7,9 @@ import { HashingProvider } from './hashing.provider';
 
 export class SignInProvider {
   constructor(
+    @Inject(forwardRef(() => UsersService))
     private readonly usersService: UsersService,
+
     private readonly hashingProvider: HashingProvider,
 
     private readonly jwtService: JwtService,
