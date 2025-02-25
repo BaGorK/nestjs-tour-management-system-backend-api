@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import jwtConfig from './auth/config/jwt.config';
 import { AccessTokenGuard } from './auth/guards/access-token/access-token.guard';
 import { AuthenticationGuard } from './auth/guards/authentication/authentication.guard';
+import { AuthorizationGuard } from './auth/guards/authorization/authorization.guard';
 import { BookingsModule } from './bookings/bookings.module';
 import { DataResponseInterceptor } from './lib/common/interceptors/data-response/data-response.interceptor';
 import { TimeoutInterceptor } from './lib/common/interceptors/timeout/timeout.interceptor';
@@ -69,6 +70,10 @@ import { UsersModule } from './users/users.module';
     {
       provide: APP_GUARD,
       useClass: AuthenticationGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AuthorizationGuard,
     },
     AccessTokenGuard,
   ],

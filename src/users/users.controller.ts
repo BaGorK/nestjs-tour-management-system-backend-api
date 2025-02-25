@@ -20,12 +20,15 @@ import {
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UsersService } from './providers/users.service';
+import { Role } from 'src/auth/decorator/role.decorator';
+import { UserRole } from './enums/user-role.enum';
 
 /**
  * Users Controller
  */
 @Controller('/api/v1/users')
 @ApiTags('users')
+@Role(UserRole.ADMIN)
 export class UsersController {
   constructor(
     /**
