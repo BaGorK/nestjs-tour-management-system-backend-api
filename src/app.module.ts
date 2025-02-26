@@ -3,8 +3,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import jwtConfig from './auth/config/jwt.config';
 import { AccessTokenGuard } from './auth/guards/access-token/access-token.guard';
@@ -56,9 +54,8 @@ import { UsersModule } from './users/users.module';
     ConfigModule.forFeature(jwtConfig),
     JwtModule.registerAsync(jwtConfig.asProvider()),
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [
-    AppService,
     {
       provide: APP_INTERCEPTOR,
       useClass: TimeoutInterceptor,

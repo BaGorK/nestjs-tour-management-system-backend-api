@@ -6,6 +6,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const API_PREFIX = process.env.API_PREFIX || 'api/v1';
   const ENV = process.env.NODE_ENV || 'development';
 
   const config = new DocumentBuilder()
@@ -24,7 +25,7 @@ async function bootstrap() {
   SwaggerModule.setup('api-docs', app, documentFactory);
 
   // global prefix
-  app.setGlobalPrefix('api/v1');
+  app.setGlobalPrefix(API_PREFIX);
 
   // global pipes
   app.useGlobalPipes(
