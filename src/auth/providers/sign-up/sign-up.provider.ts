@@ -8,7 +8,7 @@ import { pgUniqueVioliationErrCode } from 'src/lib/constants/pg-unique-violation
 import { User } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
 import { SignUpDto } from '../dtos/sign-up.dto';
-import { HashingProvider } from './hashing.provider';
+import { HashingProvider } from './hash-password/hashing.provider';
 
 @Injectable()
 export class SignUpProvider {

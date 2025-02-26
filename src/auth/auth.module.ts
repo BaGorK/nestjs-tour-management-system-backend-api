@@ -7,12 +7,12 @@ import { UsersModule } from 'src/users/users.module';
 import { AuthController } from './auth.controller';
 import jwtConfig from './config/jwt.config';
 import { AuthService } from './providers/auth.service';
-import { BcryptProvider } from './providers/bcrypt.provider';
-import { GenerateTokenProvider } from './providers/generate-token.provider';
-import { HashingProvider } from './providers/hashing.provider';
-import { RefreshTokensProvider } from './providers/refresh-tokens.provider';
-import { SignInProvider } from './providers/sign-in.provider';
-import { SignUpProvider } from './providers/sign-up.provider';
+import { BcryptProvider } from './providers/hash-password/bcrypt.provider';
+import { GenerateTokenProvider } from './providers/jwt-token/generate-token.provider';
+import { HashingProvider } from './providers/hash-password/hashing.provider';
+import { RefreshTokensProvider } from './providers/jwt-token/refresh-tokens.provider';
+import { SignInProvider } from './providers/sign-in/sign-in.provider';
+import { SignUpProvider } from './providers/sign-up/sign-up.provider';
 import { GoogleAuthenticationController } from './social/google-authentication.controller';
 import { GoogleAuthenticationService } from './social/providers/google-authentication.service';
 
