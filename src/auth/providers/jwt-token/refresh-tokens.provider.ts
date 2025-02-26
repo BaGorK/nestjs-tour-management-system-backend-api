@@ -6,10 +6,10 @@ import {
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import jwtConfig from 'src/auth/config/jwt.config';
+import { RefreshTokenDto } from 'src/auth/dtos/refresh-token.dto';
+import { ActiveUserData } from 'src/auth/interfaces/active-user-data.interface';
 import { UsersService } from 'src/users/providers/users.service';
-import jwtConfig from '../config/jwt.config';
-import { RefreshTokenDto } from '../dtos/refresh-token.dto';
-import { ActiveUserData } from '../interfaces/active-user-data.interface';
 import { GenerateTokenProvider } from './generate-token.provider';
 
 @Injectable()

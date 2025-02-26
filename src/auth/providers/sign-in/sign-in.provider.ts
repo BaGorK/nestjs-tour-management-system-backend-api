@@ -1,9 +1,9 @@
 import { BadRequestException, forwardRef, Inject } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { SignInDto } from 'src/auth/dtos/sign-in.dto';
 import { UsersService } from 'src/users/providers/users.service';
-import { SignInDto } from '../dtos/sign-in.dto';
-import { GenerateTokenProvider } from './jwt-token/generate-token.provider';
-import { HashingProvider } from './hash-password/hashing.provider';
+import { HashingProvider } from '../hash-password/hashing.provider';
+import { GenerateTokenProvider } from '../jwt-token/generate-token.provider';
 
 export class SignInProvider {
   constructor(

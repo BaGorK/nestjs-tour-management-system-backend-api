@@ -4,11 +4,11 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { SignUpDto } from 'src/auth/dtos/sign-up.dto';
 import { pgUniqueVioliationErrCode } from 'src/lib/constants/pg-unique-violation-err-code';
 import { User } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
-import { SignUpDto } from '../dtos/sign-up.dto';
-import { HashingProvider } from './hash-password/hashing.provider';
+import { HashingProvider } from '../hash-password/hashing.provider';
 
 @Injectable()
 export class SignUpProvider {

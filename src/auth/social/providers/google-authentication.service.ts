@@ -8,7 +8,7 @@ import {
 import { ConfigType } from '@nestjs/config';
 import { OAuth2Client } from 'google-auth-library';
 import jwtConfig from 'src/auth/config/jwt.config';
-import { GenerateTokenProvider } from 'src/auth/providers/generate-token.provider';
+import { GenerateTokenProvider } from 'src/auth/providers/jwt-token/generate-token.provider';
 import { UsersService } from 'src/users/providers/users.service';
 import { GoogleTokenDto } from '../dtos/google-token.dto';
 
