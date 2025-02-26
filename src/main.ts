@@ -1,28 +1,15 @@
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { SwaggerConfigModule } from './common/swagger/swagger.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const API_PREFIX = process.env.API_PREFIX || 'api/v1';
-  const ENV = process.env.NODE_ENV || 'development';
 
-  const config = new DocumentBuilder()
-    .setTitle('tour management system backend api')
-    .setDescription('The tour management system backend api built using NestJs')
-    .setVersion('1.0.0')
-    .addServer(
-      ENV === 'development'
-        ? 'http://localhost:5000'
-        : 'https://tour-management-system.render.com',
-    )
-    .addBearerAuth() // Add Bearer token support
-    .build();
-
-  const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs', app, documentFactory);
+  // Setup Swagger
+  SwaggerConfigModule.setup(app);
 
   // global prefix
   app.setGlobalPrefix(API_PREFIX);
