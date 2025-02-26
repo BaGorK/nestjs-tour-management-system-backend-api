@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthModule } from './auth/auth.module';
 import jwtConfig from './auth/config/jwt.config';
@@ -10,9 +10,8 @@ import { AuthorizationGuard } from './auth/guards/authorization/authorization.gu
 import { BookingsModule } from './bookings/bookings.module';
 import { ConfigurationModule } from './common/configuration/configuration.module';
 import { DatabaseModule } from './common/database/database.module';
+import { InterceptorsModule } from './common/interceptors/interceptors.module';
 import { SwaggerConfigModule } from './common/swagger/swagger.module';
-import { DataResponseInterceptor } from './lib/common/interceptors/data-response/data-response.interceptor';
-import { TimeoutInterceptor } from './lib/common/interceptors/timeout/timeout.interceptor';
 import { ReviewsModule } from './reviews/reviews.module';
 import { ToursModule } from './tours/tours.module';
 import { UsersModule } from './users/users.module';
@@ -30,17 +29,10 @@ import { UsersModule } from './users/users.module';
     DatabaseModule,
     SwaggerConfigModule,
     ConfigurationModule,
+    InterceptorsModule,
   ],
   controllers: [],
   providers: [
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: TimeoutInterceptor,
-    },
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: DataResponseInterceptor,
-    },
     {
       provide: APP_GUARD,
       useClass: AuthenticationGuard,

@@ -8,9 +8,6 @@ async function bootstrap() {
 
   const API_PREFIX = process.env.API_PREFIX || 'api/v1';
 
-  // Setup Swagger
-  SwaggerConfigModule.setup(app);
-
   // global prefix
   app.setGlobalPrefix(API_PREFIX);
 
@@ -34,6 +31,9 @@ async function bootstrap() {
 
   // enable cors
   app.enableCors();
+
+  // Setup Swagger
+  SwaggerConfigModule.setup(app);
 
   await app.listen(5000);
 }

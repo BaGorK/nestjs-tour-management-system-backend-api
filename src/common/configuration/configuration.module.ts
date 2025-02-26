@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import appConfig from 'src/lib/config/app.config';
-import databaseConfig from 'src/lib/config/database.config';
-import environmentValidation from 'src/lib/config/environment.validation';
+import appConfig from './config/app.config';
+import databaseConfig from './config/database.config';
+import environmentValidation from './config/environment.validation';
 
 @Module({
   imports: [
