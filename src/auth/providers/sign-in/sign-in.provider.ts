@@ -1,9 +1,15 @@
-import { BadRequestException, forwardRef, Inject } from '@nestjs/common';
+import {
+  BadRequestException,
+  forwardRef,
+  Inject,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { SignInDto } from 'src/auth/dtos/sign-in.dto';
 import { UsersService } from 'src/users/providers/users.service';
 import { HashingProvider } from '../hash-password/hashing.provider';
 import { GenerateTokenProvider } from '../jwt-token/generate-token.provider';
+import { AuthProviderEnum } from 'src/users/enums/auth-provider.enum';
 
 export class SignInProvider {
   constructor(
@@ -29,6 +35,13 @@ export class SignInProvider {
 
       if (!user) {
         throw new BadRequestException('Invalid credentials');
+      }
+
+      // check if user signed up via email
+      if (user.authProvider !== AuthProviderEnum.EMAIL) {
+        throw new UnprocessableEntityException(
+          `need login via ${user.authProvider} provider, please sign in via ${user.authProvider} provider`,
+        );
       }
 
       // compare the password

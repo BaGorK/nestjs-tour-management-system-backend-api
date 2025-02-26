@@ -1,6 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { UserRole } from './enums/user-role.enum';
 import { Exclude } from 'class-transformer';
+import { AuthProviderEnum } from './enums/auth-provider.enum';
 
 @Entity()
 export class User {
@@ -41,4 +42,11 @@ export class User {
     default: UserRole.USER,
   })
   role: UserRole;
+
+  @Column({
+    type: 'enum',
+    enum: AuthProviderEnum,
+    default: AuthProviderEnum.EMAIL,
+  })
+  authProvider: AuthProviderEnum;
 }

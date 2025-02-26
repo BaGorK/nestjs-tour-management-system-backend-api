@@ -11,6 +11,7 @@ import jwtConfig from 'src/auth/config/jwt.config';
 import { GenerateTokenProvider } from 'src/auth/providers/jwt-token/generate-token.provider';
 import { UsersService } from 'src/users/providers/users.service';
 import { GoogleTokenDto } from '../dtos/google-token.dto';
+import { AuthProviderEnum } from 'src/users/enums/auth-provider.enum';
 
 @Injectable()
 export class GoogleAuthenticationService implements OnModuleInit {
@@ -56,6 +57,7 @@ export class GoogleAuthenticationService implements OnModuleInit {
         firstName,
         lastName,
         profilePicture,
+        authProvider: AuthProviderEnum.GOOGLE,
       });
 
       return this.generateTokenProvider.generateToken(newUser);
