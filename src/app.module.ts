@@ -15,6 +15,7 @@ import { SwaggerConfigModule } from './common/swagger/swagger.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { ToursModule } from './tours/tours.module';
 import { UsersModule } from './users/users.module';
+import { FileUploadService } from './common/file-upload/file-upload.service';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { UsersModule } from './users/users.module';
       useClass: AuthorizationGuard,
     },
     AccessTokenGuard,
+    FileUploadService,
   ],
 })
 export class AppModule {}
