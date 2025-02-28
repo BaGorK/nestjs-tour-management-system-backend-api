@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import * as fs from 'fs';
 import { diskStorage } from 'multer';
 import * as path from 'path';
+import { MaxImageFileSize } from 'src/lib/constants/max-image-file-sez';
 import { v4 as uuidv4 } from 'uuid';
 
 type ValidMimeType = 'image/png' | 'image/jpg' | 'image/jpeg';
@@ -14,13 +16,15 @@ const validMimeTypes: ValidMimeType[] = [
 
 @Injectable()
 export class FileUploadService {
-  public uploadFileLocal(file: Express.Multer.File) {
-    const filePath =
+  constructor(private readonly configService: ConfigService) {}
+
+  public getFilePath(file: Express.Multer.File) {
+    let filePath =
       file.destination.split('/').slice(-2).join('/') + '/' + file.filename;
 
-    const imageUrl = `${process.env.BACKEND_URL}/${filePath}`;
+    filePath = `${this.configService.get('appConfig.backendUrl')}/${filePath}`;
 
-    return imageUrl;
+    return filePath;
   }
 
   public saveImageToStorage({ dirName }: { dirName: string }) {
@@ -47,16 +51,25 @@ export class FileUploadService {
         },
       }),
       fileFilter: (req, file, cb) => {
-        if (validMimeTypes.includes(file.mimetype)) {
-          cb(null, true);
-        } else {
-          cb(
-            new Error(
+        if (!validMimeTypes.includes(file.mimetype)) {
+          return cb(
+            new BadRequestException(
               'Invalid file type! Only PNG, JPG, and JPEG are allowed.',
             ),
             false,
           );
         }
+
+        if (file.size > MaxImageFileSize) {
+          return cb(
+            new BadRequestException(
+              `File size exceeds the ${MaxImageFileSize}MB limit.`,
+            ),
+            false,
+          );
+        }
+
+        cb(null, true);
       },
     };
   }
