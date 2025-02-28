@@ -1,10 +1,12 @@
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 import { AppModule } from './app.module';
 import { SwaggerConfigModule } from './common/swagger/swagger.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   const API_PREFIX = process.env.API_PREFIX || 'api/v1';
 
@@ -31,6 +33,8 @@ async function bootstrap() {
 
   // enable cors
   app.enableCors();
+
+  app.useStaticAssets(join(__dirname, '..', 'public'));
 
   // Setup Swagger
   SwaggerConfigModule.setup(app);

@@ -6,6 +6,8 @@ export default Joi.object({
     .default('development'),
   API_VERSION: Joi.string().required(),
   API_PREFIX: Joi.string().required(),
+  BACKEND_URL: Joi.string().required(),
+  FRONTEND_URL: Joi.string().required(),
   DATABASE_PORT: Joi.number().port().default(5432),
   DATABASE_USER: Joi.string().required(),
   DATABASE_PASSWORD: Joi.string().required(),

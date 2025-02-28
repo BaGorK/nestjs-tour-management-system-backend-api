@@ -5,11 +5,11 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { SignInDto } from 'src/auth/dtos/sign-in.dto';
+import { AuthProviderEnum } from 'src/users/enums/auth-provider.enum';
 import { UsersService } from 'src/users/providers/users.service';
 import { HashingProvider } from '../hash-password/hashing.provider';
 import { GenerateTokenProvider } from '../jwt-token/generate-token.provider';
-import { AuthProviderEnum } from 'src/users/enums/auth-provider.enum';
+import { SignInDto } from './dtos/sign-in.dto';
 
 export class SignInProvider {
   constructor(

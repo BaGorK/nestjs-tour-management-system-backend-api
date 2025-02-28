@@ -1,7 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsEmail,
   IsNotEmpty,
+  IsOptional,
   IsString,
   MaxLength,
   MinLength,
@@ -56,4 +57,12 @@ export class SignUpDto {
   @MinLength(8)
   @MaxLength(96)
   passwordConfirm: string;
+
+  @ApiPropertyOptional({
+    description: 'Profile picture of the user (file upload)',
+    type: 'string',
+    format: 'binary',
+  })
+  @IsOptional()
+  profielPicture?: Express.Multer.File;
 }
