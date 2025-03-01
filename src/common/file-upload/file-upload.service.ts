@@ -27,7 +27,7 @@ export class FileUploadService {
     return filePath;
   }
 
-  public saveImageToStorage({ dirName }: { dirName: string }) {
+  public static saveImageToStorage({ dirName }: { dirName: string }) {
     const uploadDirRelative = `public/uploads/${dirName}`;
     const uploadsDirRoot = path.resolve(
       __dirname,
