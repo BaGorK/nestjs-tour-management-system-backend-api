@@ -81,6 +81,7 @@ export class CreateTourDto {
     description: 'Cover image, The cover image of the tour',
     type: 'string',
     format: 'binary',
+    required: true,
   })
   coverImage: string;
 
@@ -91,7 +92,7 @@ export class CreateTourDto {
       type: 'string',
       format: 'binary',
     },
-    minItems: 1,
+    required: true,
     maxItems: 5,
   })
   additionalImages: string[];
