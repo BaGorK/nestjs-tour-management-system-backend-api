@@ -95,12 +95,4 @@ export class CreateTourDto {
     maxItems: 5,
   })
   additionalImages: string[];
-
-  @IsOptional()
-  @IsNumber()
-  ratingsAverage: number;
-
-  @IsOptional()
-  @IsInt()
-  ratingsQuantity: number;
 }

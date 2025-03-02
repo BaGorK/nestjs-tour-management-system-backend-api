@@ -75,10 +75,32 @@ export class FileUploadService {
   }
 
   public removeFile(fullFilePath: string): void {
-    fs.unlink(fullFilePath, err => {
-      if (err) {
-        console.error(`Error removing file: ${err.message}`);
-      }
-    });
+    let filePath = fullFilePath;
+
+    if (
+      fullFilePath.startsWith('http://') ||
+      fullFilePath.startsWith('https://')
+    ) {
+      const relativePath = fullFilePath.split('/uploads/')[1];
+      filePath = path.resolve(
+        __dirname,
+        '../../../public/uploads',
+        relativePath,
+      );
+
+      console.log('file path to be removed from the folder...', filePath);
+
+      fs.unlink(filePath, err => {
+        if (err) {
+          console.error(`Error removing file: ${err.message}`);
+        }
+      });
+    } else {
+      fs.unlink(filePath, err => {
+        if (err) {
+          console.error(`Error removing file: ${err.message}`);
+        }
+      });
+    }
   }
 }
