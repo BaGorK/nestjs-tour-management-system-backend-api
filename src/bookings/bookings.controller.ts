@@ -8,6 +8,17 @@ import { ApiBearerAuth, ApiOperation, ApiParam } from '@nestjs/swagger';
 export class BookingsController {
   constructor(private readonly bookingService: BookingsService) {}
   // find all bookings
+  @ApiOperation({
+    summary: 'Get All Bookings',
+    description: 'Get All Bookings.',
+  })
+  @ApiBearerAuth()
+  @Role(UserRole.ADMIN)
+  @Get()
+  public findAllBookings() {
+    return this.bookingService.findAllBookings();
+  }
+
   // create booking
   // find booking by id
   @ApiOperation({
