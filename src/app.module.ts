@@ -10,12 +10,12 @@ import { AuthorizationGuard } from './auth/guards/authorization/authorization.gu
 import { BookingsModule } from './bookings/bookings.module';
 import { ConfigurationModule } from './common/configuration/configuration.module';
 import { DatabaseModule } from './common/database/database.module';
+import { FileUploadModule } from './common/file-upload/file-upload.module';
 import { InterceptorsModule } from './common/interceptors/interceptors.module';
 import { SwaggerConfigModule } from './common/swagger/swagger.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { ToursModule } from './tours/tours.module';
 import { UsersModule } from './users/users.module';
-import { FileUploadService } from './common/file-upload/file-upload.service';
 
 @Module({
   imports: [
@@ -31,6 +31,7 @@ import { FileUploadService } from './common/file-upload/file-upload.service';
     SwaggerConfigModule,
     ConfigurationModule,
     InterceptorsModule,
+    FileUploadModule,
   ],
   controllers: [],
   providers: [
@@ -43,7 +44,6 @@ import { FileUploadService } from './common/file-upload/file-upload.service';
       useClass: AuthorizationGuard,
     },
     AccessTokenGuard,
-    FileUploadService,
   ],
 })
 export class AppModule {}

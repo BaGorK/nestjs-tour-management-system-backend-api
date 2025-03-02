@@ -49,6 +49,7 @@ export class UsersController {
   public findAllUsers() {
     return this.usersService.findAll();
   }
+
   /**
    * find user by id
    */
@@ -66,6 +67,7 @@ export class UsersController {
   public findUserById(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.findById(id);
   }
+
   /**
    * create user
    */
@@ -82,6 +84,7 @@ export class UsersController {
   public createUser(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
+
   /**
    * update user
    */
@@ -107,6 +110,7 @@ export class UsersController {
   ) {
     return this.usersService.update(id, updateUserDto);
   }
+
   /**
    * delete user
    */
