@@ -1,5 +1,5 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Auth } from './decorator/auth.decorator';
 import { RefreshTokenDto } from './dtos/refresh-token.dto';
 import { AuthType } from './enums/auth-type.enum';
@@ -29,29 +29,13 @@ export class AuthController {
   @ApiOperation({
     summary: 'Sign up a user',
   })
-  @ApiConsumes('multipart/form-data')
   @ApiBody({
     type: SignUpDto,
     description: 'Sign up a user',
   })
   @Post('sign-up')
   @Auth(AuthType.None)
-  // @UseInterceptors(
-  //   FileInterceptor('profielPicture', saveImageToStorage({ dirName: 'user' })),
-  // )
-  public async signUp(
-    // @UploadedFile() file: Express.Multer.File,
-    @Body() signUpDto: SignUpDto,
-  ) {
-    // console.log(file);
-    // let filePath = '';
-    //
-    // if (file) {
-    //   filePath = uploadFileLocal(file);
-    // }
-    //
-    // console.log('filepath...', filePath);
-    //
+  public async signUp(@Body() signUpDto: SignUpDto) {
     return this.authService.signUp(signUpDto);
   }
 
