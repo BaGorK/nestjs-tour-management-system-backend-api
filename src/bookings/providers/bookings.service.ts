@@ -6,6 +6,8 @@ import { FindOneBookingByProvider } from './find-one-booking-by.provider';
 import { FindAllBookingsProvider } from './find-all-bookings.provider';
 import { CreateBookingProvider } from './create-booking.provider';
 import { CreateBookingDto } from '../dtos/create-booking.dto';
+import { UpdateBookingProvider } from './update-booking.provider';
+import { UpdateBookingDto } from '../dtos/update-booking.dto';
 
 @Injectable()
 export class BookingsService {
@@ -15,6 +17,7 @@ export class BookingsService {
     private readonly findBookingByIdProvider: FindBookingByIdProvider,
     private readonly findOneBookingByProvider: FindOneBookingByProvider,
     private readonly createBookingProvider: CreateBookingProvider,
+    private readonly updateBookingProvider: UpdateBookingProvider,
   ) {}
   // find all bookings
   public findAllBookings() {
@@ -29,6 +32,11 @@ export class BookingsService {
   // find booking by id
   public findBookingById(id: string) {
     return this.findBookingByIdProvider.findBookingById(id);
+  }
+
+  // update booking
+  public updateBooking(id: string, updateBookingDto: UpdateBookingDto) {
+    return this.updateBookingProvider.updateBooking(id, updateBookingDto);
   }
 
   // delete tour

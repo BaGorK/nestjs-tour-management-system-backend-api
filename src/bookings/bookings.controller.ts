@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { BookingsService } from './providers/bookings.service';
@@ -17,12 +18,14 @@ import {
   ApiParam,
 } from '@nestjs/swagger';
 import { CreateBookingDto } from './dtos/create-booking.dto';
+import { UpdateBookingDto } from './dtos/update-booking.dto';
 
 @Controller('bookings')
 @Role(UserRole.ADMIN)
 @ApiBearerAuth()
 export class BookingsController {
   constructor(private readonly bookingService: BookingsService) {}
+
   // find all bookings
   @ApiOperation({
     summary: 'Get All Bookings',
@@ -63,7 +66,32 @@ export class BookingsController {
   public findBookingById(@Param('id', ParseUUIDPipe) id: string) {
     return this.bookingService.findBookingById(id);
   }
+
   // update booking
+  @ApiOperation({
+    summary: 'Update Booking by id',
+    description:
+      'Update Bookin by id, Use this route to directly update a booking',
+  })
+  @ApiBody({
+    type: UpdateBookingDto,
+    required: true,
+    description: 'update booking dto - the body that will be updated',
+  })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'booking id',
+    example: '61afea9f-aec9-4536-9351-09ccec0a7b24',
+  })
+  @Patch(':id')
+  public updateBooking(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateBookingDto: UpdateBookingDto,
+  ) {
+    return this.bookingService.updateBooking(id, updateBookingDto);
+  }
+
   // delete booking
   @ApiOperation({
     summary: 'Delete Booking by id',

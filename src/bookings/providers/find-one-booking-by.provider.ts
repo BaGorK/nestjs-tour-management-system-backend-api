@@ -28,10 +28,6 @@ export class FindOneBookingByProvider {
       );
     }
 
-    if (!booking) {
-      throw new NotFoundException(`Booking not found.`);
-    }
-
     return booking;
   }
 }
