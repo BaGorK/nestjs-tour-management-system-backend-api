@@ -26,5 +26,6 @@ import { ToursController } from './tours.controller';
     FindMultipleImagesByIdsProvider,
   ],
   imports: [TypeOrmModule.forFeature([Tour, TourImages]), FileUploadModule],
+  exports: [ToursService],
 })
 export class ToursModule {}

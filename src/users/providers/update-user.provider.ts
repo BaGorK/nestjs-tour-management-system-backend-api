@@ -16,7 +16,7 @@ export class UpdateUserProvider {
     private readonly usersRepository: Repository<User>,
 
     private readonly findOneUserByProvider: FindOneUserByProvider,
-  ) { }
+  ) {}
 
   public async update(id: string, updateUserDto: UpdateUserDto) {
     console.log('update user...');
@@ -57,7 +57,7 @@ export class UpdateUserProvider {
       console.log(err);
       throw new RequestTimeoutException(
         (err as Error).message ||
-        'Unable to update user at the moment please try again.',
+          'Unable to update user at the moment please try again.',
       );
     }
   }
