@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { TourDifficulty } from '../enums/tour-difficulty.enum';
 import { TourImages } from './tour-images.entity';
+import { Booking } from 'src/bookings/booking.entity';
 
 @Entity()
 export class Tour {
@@ -63,6 +64,9 @@ export class Tour {
     eager: true,
   })
   additionalImages: TourImages[];
+
+  @OneToMany(() => Booking, booking => booking.tour, { cascade: true })
+  bookings: Booking[];
 
   // TODO:
   // startDates: Date[];

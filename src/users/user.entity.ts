@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { UserRole } from './enums/user-role.enum';
 import { Exclude } from 'class-transformer';
+import { Booking } from 'src/bookings/booking.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AuthProviderEnum } from './enums/auth-provider.enum';
+import { UserRole } from './enums/user-role.enum';
 
 @Entity()
 export class User {
@@ -49,4 +50,7 @@ export class User {
     default: AuthProviderEnum.EMAIL,
   })
   authProvider: AuthProviderEnum;
+
+  @OneToMany(() => Booking, booking => booking.user, { cascade: true })
+  bookings: Booking[];
 }
