@@ -22,4 +22,8 @@ export default Joi.object({
   JWT_REFRESH_TOKEN_TTL: Joi.number().default(86400),
   GOOGLE_CLIENT_ID: Joi.string().required(),
   GOGOOGLE_CLIENT_SECRET: Joi.string().required(),
+
+  CHAPA_WEBHOOK_URL: Joi.string().required(),
+  CHAPA_WEBHOOK_SECRET: Joi.string().required(),
+  CHAPA_SECRET_KEY: Joi.string().required(),
 });
