@@ -15,13 +15,14 @@ import {
   ApiBody,
   ApiOperation,
   ApiParam,
-  ApiTags,
 } from '@nestjs/swagger';
+import { ActiveUser } from 'src/auth/decorator/active-user.decorator';
+import { Role } from 'src/auth/decorator/role.decorator';
+import { ActiveUserData } from 'src/auth/interfaces/active-user-data.interface';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { UsersService } from './providers/users.service';
-import { Role } from 'src/auth/decorator/role.decorator';
 import { UserRole } from './enums/user-role.enum';
+import { UsersService } from './providers/users.service';
 
 /**
  * Users Controller
@@ -54,6 +55,20 @@ export class UsersController {
   @Get('with-bookings/:id')
   public findOneUserWithBooking(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.FindOneUserWithBookings(id);
+  }
+
+  /**
+   * find My Bookings
+   * */
+  @ApiOperation({
+    summary: 'Find My Bookings',
+    description:
+      'Find My Bookings. users can use this route to find their booking history.',
+  })
+  @Role(UserRole.USER, UserRole.GUIDE, UserRole.LEAD_GUIDE)
+  @Get('my-bookings')
+  public findMyBookings(@ActiveUser() activeUserData: ActiveUserData) {
+    return this.usersService.FindOneUserWithBookings(activeUserData.sub);
   }
 
   /**

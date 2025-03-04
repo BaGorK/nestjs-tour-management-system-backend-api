@@ -39,7 +39,7 @@ export class FindOneUserWithBookingsProvider {
 
     return {
       status: 'success',
-      message: 'find one user with bookin history successfull',
+      message: 'find one user with booking history successfull',
       data: user,
     };
   }
