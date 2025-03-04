@@ -1,9 +1,9 @@
 import { Injectable, RequestTimeoutException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CreateTourDto } from 'src/tours/dtos/create-tour.dto';
+import { TourImages } from 'src/tours/entities/tour-images.entity';
+import { Tour } from 'src/tours/entities/tour.entity';
 import { Repository } from 'typeorm';
-import { CreateTourDto } from '../dtos/create-tour.dto';
-import { Tour } from '../entities/tour.entity';
-import { TourImages } from '../entities/tour-images.entity';
 
 @Injectable()
 export class CreateTourProvider {

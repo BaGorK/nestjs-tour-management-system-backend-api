@@ -5,11 +5,11 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FileUploadService } from 'src/common/file-upload/file-upload.service';
+import { UpdateTourDto } from 'src/tours/dtos/update-tour.dto';
+import { TourImages } from 'src/tours/entities/tour-images.entity';
+import { Tour } from 'src/tours/entities/tour.entity';
 import { Repository } from 'typeorm';
-import { UpdateTourDto } from '../dtos/update-tour.dto';
-import { TourImages } from '../entities/tour-images.entity';
-import { Tour } from '../entities/tour.entity';
-import { FindMultipleImagesByIdsProvider } from './tour-images/find-multiple-images-by-ids.provider';
+import { FindMultipleImagesByIdsProvider } from '../tour-images/find-multiple-images-by-ids.provider';
 
 @Injectable()
 export class UpdateTourProvider {

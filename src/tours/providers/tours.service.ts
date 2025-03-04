@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTourDto } from '../dtos/create-tour.dto';
-import { Tour } from '../entities/tour.entity';
-import { CreateTourProvider } from './create-tour.provider';
-import { DeleteTourProvider } from './delete-tour.provider';
-import { FindOneTourByProvider } from './find-one-tour-by.provider';
-import { GetAllToursProvider } from './get-all-tours.provider';
-import { GetTourByIdProvider } from './get-tour-by-id.provider';
-import { UpdateTourProvider } from './update-tour.provider';
 import { UpdateTourDto } from '../dtos/update-tour.dto';
+import { Tour } from '../entities/tour.entity';
+import { CreateTourProvider } from './crud/create-tour.provider';
+import { DeleteTourProvider } from './crud/delete-tour.provider';
+import { GetAllToursProvider } from './crud/get-all-tours.provider';
+import { GetTourByIdProvider } from './crud/get-tour-by-id.provider';
+import { UpdateTourProvider } from './crud/update-tour.provider';
+import { FindOneTourByProvider } from './find-one-tour-by.provider';
 
 @Injectable()
 export class ToursService {
