@@ -9,12 +9,13 @@ import { CreateUserDto } from '../dtos/create-user.dto';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 import { IGoogleUser } from '../interfaces/google-user.interface';
 import { User } from '../user.entity';
-import { CreateGoogleUserProvider } from './social/create-google-user.provider';
 import { CreateUserProvider } from './crud/create-user.provider';
 import { FindAllUsersProvider } from './crud/find-all-users.provider';
-import { FindOneUserByProvider } from './find-one-user-by.provider';
 import { UpdateUserProvider } from './crud/update-user.provider';
+import { FindCurrentActiveUserProvider } from './current/find-current-active-user.provider';
+import { FindOneUserByProvider } from './find-one-user-by.provider';
 import { FindOneUserWithBookingsProvider } from './find-one-user-with-bookings.provider';
+import { CreateGoogleUserProvider } from './social/create-google-user.provider';
 
 /**
  * User Service Provider
@@ -38,6 +39,7 @@ export class UsersService {
     private readonly createGoogleUserProvider: CreateGoogleUserProvider,
 
     private readonly findOneUserWithBookingsProvider: FindOneUserWithBookingsProvider,
+    private readonly findCurrentActiveUserProvider: FindCurrentActiveUserProvider,
   ) {}
 
   public async findAll() {
@@ -100,5 +102,9 @@ export class UsersService {
 
   public async FindOneUserWithBookings(id: string) {
     return this.findOneUserWithBookingsProvider.findOneUserWithBooking(id);
+  }
+
+  public async findCurrentActiveUser(id: string) {
+    return this.findCurrentActiveUserProvider.findCurrentActiveUser(id);
   }
 }

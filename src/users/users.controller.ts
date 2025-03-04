@@ -29,7 +29,6 @@ import { UsersService } from './providers/users.service';
  */
 @Controller('users')
 @ApiBearerAuth()
-@Role(UserRole.ADMIN)
 export class UsersController {
   constructor(
     /**
@@ -37,6 +36,32 @@ export class UsersController {
      */
     private readonly usersService: UsersService,
   ) {}
+
+  /**
+   * Find current active user
+   */
+  @ApiOperation({
+    summary: 'Get Currently Logged In user | active user',
+    description:
+      'Get Currently logged in user, use this route to get the current active user',
+  })
+  @Get('current-user')
+  public findCurrentActiveUser(@ActiveUser() activeUserData: ActiveUserData) {
+    return this.usersService.findCurrentActiveUser(activeUserData.sub);
+  }
+
+  /**
+   * find My Bookings
+   * */
+  @ApiOperation({
+    summary: 'Find My Bookings',
+    description:
+      'Find My Bookings. users can use this route to find their booking history.',
+  })
+  @Get('my-bookings')
+  public findMyBookings(@ActiveUser() activeUserData: ActiveUserData) {
+    return this.usersService.FindOneUserWithBookings(activeUserData.sub);
+  }
 
   /**
    * find one user with booking history detail
@@ -52,23 +77,10 @@ export class UsersController {
     description: 'ID of a user',
     example: '9fe4996c-b2e9-4829-aa67-400ec1d35d56',
   })
-  @Get('with-bookings/:id')
+  @Role(UserRole.ADMIN)
+  @Get('my-bookings/:id')
   public findOneUserWithBooking(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.FindOneUserWithBookings(id);
-  }
-
-  /**
-   * find My Bookings
-   * */
-  @ApiOperation({
-    summary: 'Find My Bookings',
-    description:
-      'Find My Bookings. users can use this route to find their booking history.',
-  })
-  @Role(UserRole.USER, UserRole.GUIDE, UserRole.LEAD_GUIDE)
-  @Get('my-bookings')
-  public findMyBookings(@ActiveUser() activeUserData: ActiveUserData) {
-    return this.usersService.FindOneUserWithBookings(activeUserData.sub);
   }
 
   /**
@@ -78,6 +90,7 @@ export class UsersController {
     summary: 'Find all users',
     description: 'Find all users',
   })
+  @Role(UserRole.ADMIN)
   @Get()
   public findAllUsers() {
     return this.usersService.findAll();
@@ -95,6 +108,7 @@ export class UsersController {
     description: 'user id',
     required: true,
   })
+  @Role(UserRole.ADMIN)
   @Get(':id')
   public findUserById(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.findById(id);
@@ -111,6 +125,7 @@ export class UsersController {
     type: CreateUserDto,
     description: 'create user dto',
   })
+  @Role(UserRole.ADMIN)
   @Post()
   public createUser(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
@@ -132,6 +147,7 @@ export class UsersController {
     type: UpdateUserDto,
     description: 'update user dto',
   })
+  @Role(UserRole.ADMIN)
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
   public updateUser(
@@ -153,6 +169,7 @@ export class UsersController {
     description: 'user id',
     required: true,
   })
+  @Role(UserRole.ADMIN)
   @Delete(':id')
   public deleteUser(@Param('id') id: string) {
     return this.usersService.deleteUser(id);

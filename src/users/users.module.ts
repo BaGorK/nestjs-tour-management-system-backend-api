@@ -10,6 +10,7 @@ import { CreateGoogleUserProvider } from './providers/social/create-google-user.
 import { UsersService } from './providers/users.service';
 import { User } from './user.entity';
 import { UsersController } from './users.controller';
+import { FindCurrentActiveUserProvider } from './providers/current/find-current-active-user.provider';
 
 @Module({
   controllers: [UsersController],
@@ -21,6 +22,7 @@ import { UsersController } from './users.controller';
     FindOneUserByProvider,
     CreateGoogleUserProvider,
     FindOneUserWithBookingsProvider,
+    FindCurrentActiveUserProvider,
   ],
   imports: [TypeOrmModule.forFeature([User]), forwardRef(() => AuthModule)],
   exports: [UsersService],
