@@ -22,13 +22,13 @@ import {
 import { Auth } from 'src/auth/decorator/auth.decorator';
 import { Role } from 'src/auth/decorator/role.decorator';
 import { AuthType } from 'src/auth/enums/auth-type.enum';
+import { Roles } from 'src/common/enum/Roles.enum';
 import { FileUploadService } from 'src/common/file-upload/file-upload.service';
-import { UserRole } from 'src/users/enums/user-role.enum';
 import { TourImagesUpload } from './decorators/tour-images-upload.decorator';
 import { CreateTourDto } from './dtos/create-tour.dto';
+import { UpdateTourDto } from './dtos/update-tour.dto';
 import { ITourMultipleFiles } from './interfaces/tour-multiple-files.interface';
 import { ToursService } from './providers/tours.service';
-import { UpdateTourDto } from './dtos/update-tour.dto';
 
 @Controller('tours')
 export class ToursController {
@@ -47,7 +47,7 @@ export class ToursController {
     example: 'ccd3051f-b7df-4cd4-8ae6-eb02045f6dfd',
   })
   @ApiBearerAuth()
-  @Role(UserRole.ADMIN, UserRole.LEAD_GUIDE, UserRole.GUIDE)
+  @Role(Roles.ADMIN, Roles.LEAD_GUIDE, Roles.GUIDE)
   @Get('with-bookings/:id')
   public findTourWithBookings(@Param('id', ParseUUIDPipe) id: string) {
     return this.toursService.findTourWithBookings(id);
@@ -78,7 +78,7 @@ export class ToursController {
   @ApiConsumes('multipart/form-data')
   @TourImagesUpload()
   @ApiBearerAuth()
-  @Role(UserRole.ADMIN)
+  @Role(Roles.ADMIN)
   @Post()
   createTour(
     @UploadedFiles()
@@ -141,7 +141,7 @@ export class ToursController {
   @ApiConsumes('multipart/form-data')
   @ApiBearerAuth()
   @TourImagesUpload()
-  @Role(UserRole.ADMIN, UserRole.LEAD_GUIDE)
+  @Role(Roles.ADMIN, Roles.LEAD_GUIDE)
   @HttpCode(HttpStatus.OK)
   @Patch(':id')
   updateTour(
@@ -180,7 +180,7 @@ export class ToursController {
     example: '0692d757-6121-4bc9-854e-29234141eac0',
   })
   @ApiBearerAuth()
-  @Role(UserRole.ADMIN)
+  @Role(Roles.ADMIN)
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   deleteTour(@Param('id', ParseUUIDPipe) id: string) {

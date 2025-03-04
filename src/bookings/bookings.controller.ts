@@ -8,20 +8,20 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { BookingsService } from './providers/bookings.service';
-import { Role } from 'src/auth/decorator/role.decorator';
-import { UserRole } from 'src/users/enums/user-role.enum';
 import {
   ApiBearerAuth,
   ApiBody,
   ApiOperation,
   ApiParam,
 } from '@nestjs/swagger';
+import { Role } from 'src/auth/decorator/role.decorator';
+import { Roles } from 'src/common/enum/Roles.enum';
 import { CreateBookingDto } from './dtos/create-booking.dto';
 import { UpdateBookingDto } from './dtos/update-booking.dto';
+import { BookingsService } from './providers/bookings.service';
 
 @Controller('bookings')
-@Role(UserRole.ADMIN)
+@Role(Roles.ADMIN)
 @ApiBearerAuth()
 export class BookingsController {
   constructor(private readonly bookingService: BookingsService) {}

@@ -19,9 +19,9 @@ import {
 import { ActiveUser } from 'src/auth/decorator/active-user.decorator';
 import { Role } from 'src/auth/decorator/role.decorator';
 import { ActiveUserData } from 'src/auth/interfaces/active-user-data.interface';
+import { Roles } from 'src/common/enum/Roles.enum';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { UserRole } from './enums/user-role.enum';
 import { UsersService } from './providers/users.service';
 
 /**
@@ -77,7 +77,7 @@ export class UsersController {
     description: 'ID of a user',
     example: '9fe4996c-b2e9-4829-aa67-400ec1d35d56',
   })
-  @Role(UserRole.ADMIN)
+  @Role(Roles.ADMIN)
   @Get('my-bookings/:id')
   public findOneUserWithBooking(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.FindOneUserWithBookings(id);
@@ -90,7 +90,7 @@ export class UsersController {
     summary: 'Find all users',
     description: 'Find all users',
   })
-  @Role(UserRole.ADMIN)
+  @Role(Roles.ADMIN)
   @Get()
   public findAllUsers() {
     return this.usersService.findAll();
@@ -108,7 +108,7 @@ export class UsersController {
     description: 'user id',
     required: true,
   })
-  @Role(UserRole.ADMIN)
+  @Role(Roles.ADMIN)
   @Get(':id')
   public findUserById(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.findById(id);
@@ -125,7 +125,7 @@ export class UsersController {
     type: CreateUserDto,
     description: 'create user dto',
   })
-  @Role(UserRole.ADMIN)
+  @Role(Roles.ADMIN)
   @Post()
   public createUser(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
@@ -147,7 +147,7 @@ export class UsersController {
     type: UpdateUserDto,
     description: 'update user dto',
   })
-  @Role(UserRole.ADMIN)
+  @Role(Roles.ADMIN)
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
   public updateUser(
@@ -169,7 +169,7 @@ export class UsersController {
     description: 'user id',
     required: true,
   })
-  @Role(UserRole.ADMIN)
+  @Role(Roles.ADMIN)
   @Delete(':id')
   public deleteUser(@Param('id') id: string) {
     return this.usersService.deleteUser(id);
