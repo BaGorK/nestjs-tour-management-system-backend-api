@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthModule } from './auth/auth.module';
@@ -13,9 +13,11 @@ import { DatabaseModule } from './common/database/database.module';
 import { FileUploadModule } from './common/file-upload/file-upload.module';
 import { InterceptorsModule } from './common/interceptors/interceptors.module';
 import { SwaggerConfigModule } from './common/swagger/swagger.module';
+import { PaymentsModule } from './payments/payments.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { ToursModule } from './tours/tours.module';
 import { UsersModule } from './users/users.module';
+import { ChapaModule } from 'chapa-nestjs';
 
 @Module({
   imports: [
@@ -24,6 +26,7 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     ReviewsModule,
     AuthModule,
+    PaymentsModule,
 
     ConfigModule.forFeature(jwtConfig),
     JwtModule.registerAsync(jwtConfig.asProvider()),
@@ -32,6 +35,14 @@ import { UsersModule } from './users/users.module';
     ConfigurationModule,
     InterceptorsModule,
     FileUploadModule,
+
+    ChapaModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        secretKey: configService.get('appConfig.chapaSecretKey'),
+      }),
+    }),
   ],
   controllers: [],
   providers: [
