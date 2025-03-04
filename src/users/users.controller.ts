@@ -27,7 +27,7 @@ import { UserRole } from './enums/user-role.enum';
  * Users Controller
  */
 @Controller('users')
-@ApiTags('users')
+@ApiBearerAuth()
 @Role(UserRole.ADMIN)
 export class UsersController {
   constructor(
@@ -38,13 +38,31 @@ export class UsersController {
   ) {}
 
   /**
+   * find one user with booking history detail
+   */
+  @ApiOperation({
+    summary: 'Find One User with Booking history',
+    description:
+      'Find One User with Booking history. use this route to find all bookings that a user make',
+  })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'ID of a user',
+    example: '9fe4996c-b2e9-4829-aa67-400ec1d35d56',
+  })
+  @Get('with-bookings/:id')
+  public findOneUserWithBooking(@Param('id', ParseUUIDPipe) id: string) {
+    return this.usersService.FindOneUserWithBookings(id);
+  }
+
+  /**
    * find all users
    */
   @ApiOperation({
     summary: 'Find all users',
     description: 'Find all users',
   })
-  @ApiBearerAuth()
   @Get()
   public findAllUsers() {
     return this.usersService.findAll();
@@ -62,7 +80,6 @@ export class UsersController {
     description: 'user id',
     required: true,
   })
-  @ApiBearerAuth()
   @Get(':id')
   public findUserById(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.findById(id);
@@ -79,7 +96,6 @@ export class UsersController {
     type: CreateUserDto,
     description: 'create user dto',
   })
-  @ApiBearerAuth()
   @Post()
   public createUser(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
@@ -101,7 +117,6 @@ export class UsersController {
     type: UpdateUserDto,
     description: 'update user dto',
   })
-  @ApiBearerAuth()
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
   public updateUser(
@@ -123,7 +138,6 @@ export class UsersController {
     description: 'user id',
     required: true,
   })
-  @ApiBearerAuth()
   @Delete(':id')
   public deleteUser(@Param('id') id: string) {
     return this.usersService.deleteUser(id);

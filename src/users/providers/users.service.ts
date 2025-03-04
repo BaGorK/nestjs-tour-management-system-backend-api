@@ -14,6 +14,7 @@ import { CreateUserProvider } from './crud/create-user.provider';
 import { FindAllUsersProvider } from './crud/find-all-users.provider';
 import { FindOneUserByProvider } from './find-one-user-by.provider';
 import { UpdateUserProvider } from './crud/update-user.provider';
+import { FindOneUserWithBookingsProvider } from './find-one-user-with-bookings.provider';
 
 /**
  * User Service Provider
@@ -35,6 +36,8 @@ export class UsersService {
     private readonly updateUserProvider: UpdateUserProvider,
     private readonly findOneUserByProvider: FindOneUserByProvider,
     private readonly createGoogleUserProvider: CreateGoogleUserProvider,
+
+    private readonly findOneUserWithBookingsProvider: FindOneUserWithBookingsProvider,
   ) {}
 
   public async findAll() {
@@ -93,5 +96,9 @@ export class UsersService {
 
   public async createGoogleUser(googleUser: IGoogleUser) {
     return this.createGoogleUserProvider.createGoogleUser(googleUser);
+  }
+
+  public async FindOneUserWithBookings(id: string) {
+    return this.findOneUserWithBookingsProvider.findOneUserWithBooking(id);
   }
 }
