@@ -12,6 +12,7 @@ import { FindOneTourByProvider } from './providers/find-one-tour-by.provider';
 import { FindMultipleImagesByIdsProvider } from './providers/tour-images/find-multiple-images-by-ids.provider';
 import { ToursService } from './providers/tours.service';
 import { ToursController } from './tours.controller';
+import { FindTourWithBookingsProvider } from './providers/find-tour-with-bookings.provider';
 
 @Module({
   controllers: [ToursController],
@@ -24,6 +25,7 @@ import { ToursController } from './tours.controller';
     GetTourByIdProvider,
     FindOneTourByProvider,
     FindMultipleImagesByIdsProvider,
+    FindTourWithBookingsProvider,
   ],
   imports: [TypeOrmModule.forFeature([Tour, TourImages]), FileUploadModule],
   exports: [ToursService],

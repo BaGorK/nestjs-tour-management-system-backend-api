@@ -36,6 +36,23 @@ export class ToursController {
     private readonly toursService: ToursService,
     private readonly fileUploadService: FileUploadService,
   ) {}
+  // find tour with booking details
+  @ApiOperation({
+    summary: 'Find Tour with Booking Details',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'tour ID',
+    required: true,
+    example: 'ccd3051f-b7df-4cd4-8ae6-eb02045f6dfd',
+  })
+  @ApiBearerAuth()
+  @Role(UserRole.ADMIN, UserRole.LEAD_GUIDE, UserRole.GUIDE)
+  @Get('with-bookings/:id')
+  public findTourWithBookings(@Param('id', ParseUUIDPipe) id: string) {
+    return this.toursService.findTourWithBookings(id);
+  }
+
   // get all tours
   @ApiOperation({
     summary: 'Get all Tours',

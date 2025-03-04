@@ -8,6 +8,7 @@ import { GetAllToursProvider } from './crud/get-all-tours.provider';
 import { GetTourByIdProvider } from './crud/get-tour-by-id.provider';
 import { UpdateTourProvider } from './crud/update-tour.provider';
 import { FindOneTourByProvider } from './find-one-tour-by.provider';
+import { FindTourWithBookingsProvider } from './find-tour-with-bookings.provider';
 
 @Injectable()
 export class ToursService {
@@ -18,6 +19,7 @@ export class ToursService {
     private readonly createTourProvider: CreateTourProvider,
     private readonly updateTourProvider: UpdateTourProvider,
     private readonly findOneTourByProvider: FindOneTourByProvider,
+    private readonly findTourWithBookingsProvider: FindTourWithBookingsProvider,
   ) {}
 
   // get all tours
@@ -58,5 +60,10 @@ export class ToursService {
   // find one tour by
   public findOneTourBy(options: Partial<Tour>) {
     return this.findOneTourByProvider.findOneTourBy(options);
+  }
+
+  // find tour with booking details
+  public async findTourWithBookings(id: string) {
+    return this.findTourWithBookingsProvider.findTourWithBookings(id);
   }
 }
