@@ -1,3 +1,4 @@
+import { PaymentStatusEnum } from 'src/payments/enums/payment-status.enum';
 import { Tour } from 'src/tours/entities/tour.entity';
 import { User } from 'src/users/user.entity';
 import {
@@ -26,10 +27,21 @@ export class Booking {
   price: number;
 
   @Column({
-    default: true,
-    nullable: false,
+    default: false,
   })
   isPaid: boolean;
+
+  @Column({
+    type: 'enum',
+    enum: PaymentStatusEnum,
+    default: PaymentStatusEnum.PENDING,
+  })
+  paymentStatus: PaymentStatusEnum;
+
+  @Column({
+    nullable: true,
+  })
+  txRef?: string;
 
   @CreateDateColumn()
   createDate: Date;
