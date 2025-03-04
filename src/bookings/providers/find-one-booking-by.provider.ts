@@ -1,11 +1,7 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Booking } from '../booking.entity';
 import { Repository } from 'typeorm';
+import { Booking } from '../booking.entity';
 
 @Injectable()
 export class FindOneBookingByProvider {
@@ -17,7 +13,7 @@ export class FindOneBookingByProvider {
   public async findOneBookingBy(options: Partial<Booking>) {
     console.log('find one booking by...');
 
-    let booking = undefined;
+    let booking: Booking | undefined;
 
     try {
       booking = await this.bookingsRepository.findOneBy(options);

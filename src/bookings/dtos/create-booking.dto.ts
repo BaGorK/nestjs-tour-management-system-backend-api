@@ -1,11 +1,5 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsString,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsBoolean,
-} from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateBookingDto {
   @ApiProperty({
@@ -32,11 +26,10 @@ export class CreateBookingDto {
   @IsNumber()
   price: number;
 
-  @ApiPropertyOptional({
+  @ApiProperty({
     description: 'is booking paid?',
     example: true,
   })
-  @IsOptional()
   @IsBoolean()
   isPaid: boolean;
 }

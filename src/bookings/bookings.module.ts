@@ -24,5 +24,6 @@ import { UpdateBookingProvider } from './providers/update-booking.provider';
     DeleteBookingProvider,
   ],
   imports: [TypeOrmModule.forFeature([Booking]), UsersModule, ToursModule],
+  exports: [BookingsService],
 })
 export class BookingsModule {}
