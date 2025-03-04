@@ -9,11 +9,11 @@ import { CreateUserDto } from '../dtos/create-user.dto';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 import { IGoogleUser } from '../interfaces/google-user.interface';
 import { User } from '../user.entity';
-import { CreateGoogleUserProvider } from './create-google-user.provider';
-import { CreateUserProvider } from './create-user.provider';
-import { FindAllUsersProvider } from './find-all-users.provider';
+import { CreateGoogleUserProvider } from './social/create-google-user.provider';
+import { CreateUserProvider } from './crud/create-user.provider';
+import { FindAllUsersProvider } from './crud/find-all-users.provider';
 import { FindOneUserByProvider } from './find-one-user-by.provider';
-import { UpdateUserProvider } from './update-user.provider';
+import { UpdateUserProvider } from './crud/update-user.provider';
 
 /**
  * User Service Provider

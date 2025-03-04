@@ -7,10 +7,10 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HashingProvider } from 'src/auth/providers/hash-password/hashing.provider';
+import { CreateUserDto } from 'src/users/dtos/create-user.dto';
+import { User } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from '../dtos/create-user.dto';
-import { User } from '../user.entity';
-import { FindOneUserByProvider } from './find-one-user-by.provider';
+import { FindOneUserByProvider } from '../find-one-user-by.provider';
 
 @Injectable()
 export class CreateUserProvider {

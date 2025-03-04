@@ -1,8 +1,8 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IGoogleUser } from 'src/users/interfaces/google-user.interface';
+import { User } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
-import { User } from '../user.entity';
-import { IGoogleUser } from '../interfaces/google-user.interface';
 
 @Injectable()
 export class CreateGoogleUserProvider {
