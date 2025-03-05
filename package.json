@@ -18,7 +18,12 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "doc": "npx @compodoc/compodoc -p tsconfig.json -s --port 3001 --watch -d ./documentation"
+    "doc": "npx @compodoc/compodoc -p tsconfig.json -s --port 3001 --watch -d ./documentation",
+    "typeorm": "ts-node ./node_modules/typeorm/cli",
+    "migration:run": "npm run typeorm migration:run -- -d ./src/migrations/config/typeorm.config.ts",
+    "migration:generate": "npm run typeorm -- -d ./src/migrations/config/typeorm.config.ts migration:generate ./src/migrations/$npm_config_name",
+    "migration:create": "npm run typeorm migration:create ./src/migrations/$npm_config_name",
+    "migration:revert": "npm run typeorm -d ./src/migrations/config/typeorm.config.ts migration:revert"
   },
   "dependencies": {
     "@compodoc/compodoc": "^1.1.26",
