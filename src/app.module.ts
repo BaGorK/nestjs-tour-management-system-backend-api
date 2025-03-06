@@ -18,6 +18,8 @@ import { ReviewsModule } from './reviews/reviews.module';
 import { ToursModule } from './tours/tours.module';
 import { UsersModule } from './users/users.module';
 import { ChapaModule } from 'chapa-nestjs';
+import { StaffModule } from './staff/staff.module';
+import { LoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
@@ -27,6 +29,7 @@ import { ChapaModule } from 'chapa-nestjs';
     ReviewsModule,
     AuthModule,
     PaymentsModule,
+    StaffModule,
 
     ConfigModule.forFeature(jwtConfig),
     JwtModule.registerAsync(jwtConfig.asProvider()),
@@ -42,6 +45,29 @@ import { ChapaModule } from 'chapa-nestjs';
       useFactory: async (configService: ConfigService) => ({
         secretKey: configService.get('appConfig.chapaSecretKey'),
       }),
+    }),
+
+    LoggerModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => {
+        const isProduction =
+          configService.get('appConfig.environment') === 'production';
+
+        return {
+          pinoHttp: {
+            transport: isProduction
+              ? undefined
+              : {
+                  target: 'pino-pretty',
+                  options: {
+                    singleLine: true,
+                  },
+                },
+            level: isProduction ? 'info' : 'debug',
+          },
+        };
+      },
+      inject: [ConfigService],
     }),
   ],
   controllers: [],

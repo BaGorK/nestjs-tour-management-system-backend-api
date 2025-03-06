@@ -4,12 +4,12 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { AppModule } from './app.module';
 import { SwaggerConfigModule } from './common/swagger/swagger.module';
+import { Logger } from 'nestjs-pino';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   const API_PREFIX = process.env.API_PREFIX || 'api/v1';
-
   // global prefix
   app.setGlobalPrefix(API_PREFIX);
 
@@ -35,6 +35,8 @@ async function bootstrap() {
   app.enableCors();
 
   app.useStaticAssets(join(__dirname, '..', 'public'));
+
+  app.useLogger(app.get(Logger));
 
   // Setup Swagger
   SwaggerConfigModule.setup(app);
