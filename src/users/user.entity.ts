@@ -53,4 +53,10 @@ export class User {
 
   @OneToMany(() => Booking, booking => booking.user, { cascade: true })
   bookings: Booking[];
+
+  @Column({
+    default: true,
+    nullable: false,
+  })
+  isActive: boolean;
 }

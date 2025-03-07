@@ -35,4 +35,10 @@ export class Staff {
     default: StaffRole.GUIDE,
   })
   role: StaffRole;
+
+  @Column({
+    default: true,
+    nullable: false,
+  })
+  isActive: boolean;
 }
