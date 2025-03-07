@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   ParseUUIDPipe,
   Post,
@@ -30,6 +31,18 @@ export class StaffController {
     private readonly staffService: StaffService,
     private readonly fileUploadService: FileUploadService,
   ) {}
+
+  // find all staff members
+  @ApiOperation({
+    summary: 'Find All Staff Members',
+    description: 'Find All Staff Members',
+  })
+  @ApiBearerAuth()
+  @Role(Roles.ADMIN)
+  @Get()
+  public findAllStaff() {
+    return this.staffService.findAllStaff();
+  }
 
   // create staff
   @ApiOperation({
