@@ -6,6 +6,7 @@ import {
   Get,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -23,6 +24,7 @@ import { Roles } from 'src/common/enum/Roles.enum';
 import { FileUploadService } from 'src/common/file-upload/file-upload.service';
 import { FileUploadDirNames } from 'src/lib/constants/file-upload-dir-names';
 import { CreateStaffDto } from './dtos/create-staff.dto';
+import { UpdateStaffDto } from './dtos/update-staff.dto';
 import { StaffService } from './providers/staff.service';
 
 @Controller('staff')
@@ -95,6 +97,44 @@ export class StaffController {
   @Get(':id')
   public findStaffById(@Param('id', ParseUUIDPipe) id: string) {
     return this.staffService.findStaffById(id);
+  }
+
+  // update staff by id
+  @ApiOperation({
+    summary: 'Update Staff by ID',
+    description: 'Update Staff by ID',
+  })
+  @ApiBody({
+    type: UpdateStaffDto,
+    required: true,
+  })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    example: '120932b9-e741-4560-a2d0-b60212a853d9',
+  })
+  @ApiBearerAuth()
+  @UseInterceptors(
+    FileInterceptor(
+      'profilePicture',
+      FileUploadService.saveImageToStorage({
+        dirName: FileUploadDirNames.staff,
+      }),
+    ),
+  )
+  @Role(Roles.ADMIN)
+  @Patch(':id')
+  public updateStaff(
+    @UploadedFile() profilePicture: Express.Multer.File,
+    @Param('id', ParseUUIDPipe)
+    id: string,
+    @Body() updateStaffDto: UpdateStaffDto,
+  ) {
+    if (profilePicture) {
+      updateStaffDto.profilePicture =
+        this.fileUploadService.getFilePath(profilePicture);
+    }
+    return this.staffService.updateStaff(id, updateStaffDto);
   }
 
   // Delete Staff By ID

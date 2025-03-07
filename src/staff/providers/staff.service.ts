@@ -6,6 +6,8 @@ import { FindOneStaffByProvider } from './find-one-staff-by.provider';
 import { DeleteStaffProvider } from './crud/delete-staff.provider';
 import { FindAllStaffsProvider } from './crud/find-all-staffs.provider';
 import { FindStaffByIdProvider } from './crud/find-staff-by-id.provider';
+import { UpdateStaffProvider } from './crud/update-staff.provider';
+import { UpdateStaffDto } from '../dtos/update-staff.dto';
 
 @Injectable()
 export class StaffService {
@@ -15,6 +17,7 @@ export class StaffService {
     private readonly deleteStaffProvider: DeleteStaffProvider,
     private readonly findAllStaffsProvider: FindAllStaffsProvider,
     private readonly findStaffByIdProvider: FindStaffByIdProvider,
+    private readonly updateStaffProvider: UpdateStaffProvider,
   ) {}
 
   // find all staff members
@@ -30,6 +33,11 @@ export class StaffService {
   // find staff by id
   public findStaffById(id: string) {
     return this.findStaffByIdProvider.findStaffById(id);
+  }
+
+  // update staff member
+  public updateStaff(id: string, updateStaffDto: UpdateStaffDto) {
+    return this.updateStaffProvider.updateStaff(id, updateStaffDto);
   }
 
   // delete staff
