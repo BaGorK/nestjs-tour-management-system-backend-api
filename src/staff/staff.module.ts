@@ -11,6 +11,7 @@ import { FindOneStaffByProvider } from './providers/find-one-staff-by.provider';
 import { StaffService } from './providers/staff.service';
 import { StaffController } from './staff.controller';
 import { Staff } from './staff.entity';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   controllers: [StaffController],
@@ -23,7 +24,12 @@ import { Staff } from './staff.entity';
     DeleteStaffProvider,
     FindOneStaffByProvider,
   ],
-  imports: [AuthModule, FileUploadModule, TypeOrmModule.forFeature([Staff])],
+  imports: [
+    AuthModule,
+    UsersModule,
+    FileUploadModule,
+    TypeOrmModule.forFeature([Staff]),
+  ],
   exports: [StaffService],
 })
 export class StaffModule {}

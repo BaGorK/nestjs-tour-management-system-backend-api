@@ -7,6 +7,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { HashingProvider } from 'src/auth/providers/hash-password/hashing.provider';
 import { CreateStaffDto } from 'src/staff/dtos/create-staff.dto';
 import { Staff } from 'src/staff/staff.entity';
+import { UsersService } from 'src/users/providers/users.service';
+import { User } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
 import { FindOneStaffByProvider } from '../find-one-staff-by.provider';
 
@@ -15,10 +17,11 @@ export class CreateStaffProvider {
   constructor(
     @InjectRepository(Staff)
     private readonly staffsRepository: Repository<Staff>,
+    private readonly findOneStaffByProvider: FindOneStaffByProvider,
 
     private readonly hashingProvider: HashingProvider,
 
-    private readonly findOneStaffByProvider: FindOneStaffByProvider,
+    private readonly usersService: UsersService,
   ) {}
 
   public async createStaff(createStaffDto: CreateStaffDto) {
@@ -50,10 +53,22 @@ export class CreateStaffProvider {
       );
     }
 
+    await this.checkIsUserAndDelete({ email: createStaffDto.email });
+
     return {
       status: 'success',
       message: 'staff created successfully',
       data: staff,
     };
+  }
+
+  private async checkIsUserAndDelete(options: Partial<User>) {
+    const user = await this.usersService.findOneUserBy(options);
+
+    if (user) {
+      // FIXME: INSTEAD OF DIRECTLY DELETING A USER FROM THE DATABASE
+      // USE OTHER OPTIONS LIKE MAKE IS_ACTIVE=FALSE OR MOVE TO ANOTHER TABLE
+      await this.usersService.deleteUser(user.id);
+    }
   }
 }
