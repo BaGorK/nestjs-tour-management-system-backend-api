@@ -1,6 +1,13 @@
 import { Exclude } from 'class-transformer';
 import { Booking } from 'src/bookings/booking.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { AuthProviderEnum } from './enums/auth-provider.enum';
 import { UserRole } from './enums/user-role.enum';
 
@@ -59,4 +66,12 @@ export class User {
     nullable: false,
   })
   isActive: boolean;
+
+  @CreateDateColumn()
+  @Exclude()
+  createDate: Date;
+
+  @UpdateDateColumn()
+  @Exclude()
+  updateDate: Date;
 }

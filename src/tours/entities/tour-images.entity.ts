@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Tour } from './tour.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class TourImages {
@@ -19,6 +20,7 @@ export class TourImages {
   tour: Tour;
 
   @CreateDateColumn()
+  @Exclude()
   createDate: Date;
 }
 

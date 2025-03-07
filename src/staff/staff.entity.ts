@@ -1,5 +1,11 @@
 import { Exclude } from 'class-transformer';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { StaffRole } from './enum/staff-role.enum';
 
 @Entity()
@@ -41,4 +47,12 @@ export class Staff {
     nullable: false,
   })
   isActive: boolean;
+
+  @CreateDateColumn()
+  @Exclude()
+  createDate: Date;
+
+  @UpdateDateColumn()
+  @Exclude()
+  updateDate: Date;
 }

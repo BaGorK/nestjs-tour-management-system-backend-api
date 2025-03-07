@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { TourDifficulty } from '../enums/tour-difficulty.enum';
 import { TourImages } from './tour-images.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Tour {
@@ -88,8 +89,10 @@ export class Tour {
   // guides: string[];
 
   @CreateDateColumn()
+  @Exclude()
   createDate: Date;
 
   @UpdateDateColumn()
+  @Exclude()
   updateDate: Date;
 }
