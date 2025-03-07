@@ -10,6 +10,7 @@ import {
 import { TourDifficulty } from '../enums/tour-difficulty.enum';
 import { TourImages } from './tour-images.entity';
 import { Exclude } from 'class-transformer';
+import { Review } from 'src/reviews/review.entity';
 
 @Entity()
 export class Tour {
@@ -68,6 +69,9 @@ export class Tour {
 
   @OneToMany(() => Booking, booking => booking.tour, { cascade: true })
   bookings: Booking[];
+
+  @OneToMany(() => Review, review => review.tour, { cascade: true })
+  reviews: Review[];
 
   // TODO:
   // startDates: Date[];

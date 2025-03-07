@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { AuthProviderEnum } from './enums/auth-provider.enum';
 import { UserRole } from './enums/user-role.enum';
+import { Review } from 'src/reviews/review.entity';
 
 @Entity()
 export class User {
@@ -60,6 +61,9 @@ export class User {
 
   @OneToMany(() => Booking, booking => booking.user, { cascade: true })
   bookings: Booking[];
+
+  @OneToMany(() => Review, review => review.user, { cascade: true })
+  reviews: Review[];
 
   @Column({
     default: true,
