@@ -66,7 +66,7 @@ export class CreateStaffProvider {
     const user = await this.usersService.findOneUserBy(options);
 
     if (user) {
-      // FIXME: INSTEAD OF DIRECTLY DELETING A USER FROM THE DATABASE
+      // TODO: INSTEAD OF DIRECTLY DELETING A USER FROM THE DATABASE
       // USE OTHER OPTIONS LIKE MAKE IS_ACTIVE=FALSE OR MOVE TO ANOTHER TABLE
       await this.usersService.deleteUser(user.id);
     }

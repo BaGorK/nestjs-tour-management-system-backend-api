@@ -2,6 +2,9 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
+  Param,
+  ParseUUIDPipe,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -12,6 +15,7 @@ import {
   ApiBody,
   ApiConsumes,
   ApiOperation,
+  ApiParam,
 } from '@nestjs/swagger';
 import { Role } from 'src/auth/decorator/role.decorator';
 import { Roles } from 'src/common/enum/Roles.enum';
@@ -60,5 +64,23 @@ export class StaffController {
       this.fileUploadService.getFilePath(profilePicture);
 
     return this.staffService.createStaff(createStaffDto);
+  }
+
+  // Delete Staff By ID
+  @ApiOperation({
+    summary: 'Delete Staff by ID',
+    description: 'Delete Staff memeber by ID',
+  })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'Staff memeber ID',
+    example: '0a47be1c-7035-42cd-8376-f5654d0622db',
+  })
+  @ApiBearerAuth()
+  @Role(Roles.ADMIN)
+  @Delete(':id')
+  public deleteStaff(@Param('id', ParseUUIDPipe) id: string) {
+    return this.staffService.deleteStaff(id);
   }
 }
