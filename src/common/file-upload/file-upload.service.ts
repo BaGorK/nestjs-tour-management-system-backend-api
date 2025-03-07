@@ -28,13 +28,12 @@ export class FileUploadService {
   }
 
   public static saveImageToStorage({ dirName }: { dirName: string }) {
-    const uploadDirRelative = `public/uploads/${dirName}`;
     const uploadsDirRoot = path.resolve(
       __dirname,
-      `../../../${uploadDirRelative}`,
+      `../../../public/uploads/${dirName}`,
     );
 
-    // Step 5: Ensure the uploads directory exists
+    // Ensure the uploads directory exists
     if (!fs.existsSync(uploadsDirRoot)) {
       fs.mkdirSync(uploadsDirRoot, { recursive: true });
     }

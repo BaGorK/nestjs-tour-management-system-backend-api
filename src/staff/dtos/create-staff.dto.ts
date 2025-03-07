@@ -50,8 +50,7 @@ export class CreateStaffDto {
     format: 'binary',
     required: true,
   })
-  @IsString()
-  profilePicture?: string;
+  profilePicture: string;
 
   @ApiProperty({
     description: 'role of the staff member',
