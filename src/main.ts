@@ -1,10 +1,10 @@
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { Logger } from 'nestjs-pino';
 import { join } from 'path';
 import { AppModule } from './app.module';
 import { SwaggerConfigModule } from './common/swagger/swagger.module';
-import { Logger } from 'nestjs-pino';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
