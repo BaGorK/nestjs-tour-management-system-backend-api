@@ -79,6 +79,24 @@ export class StaffController {
     return this.staffService.createStaff(createStaffDto);
   }
 
+  // find staff by id
+  @ApiOperation({
+    summary: 'Find Staff by ID',
+    description: 'Find Staff by ID',
+  })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'ID of Staff Member',
+    example: '56a2f6d8-7b21-44f7-a7c9-a620baa7ef44',
+  })
+  @ApiBearerAuth()
+  @Role(Roles.ADMIN)
+  @Get(':id')
+  public findStaffById(@Param('id', ParseUUIDPipe) id: string) {
+    return this.staffService.findStaffById(id);
+  }
+
   // Delete Staff By ID
   @ApiOperation({
     summary: 'Delete Staff by ID',
