@@ -25,6 +25,11 @@ export class Staff {
   email: string;
 
   @Column({
+    unique: true,
+  })
+  phoneNumber: string;
+
+  @Column({
     nullable: true,
   })
   @Exclude()

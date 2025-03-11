@@ -29,6 +29,11 @@ export class User {
   email: string;
 
   @Column({
+    unique: true,
+  })
+  phoneNumber: string;
+
+  @Column({
     nullable: true,
   })
   @Exclude()
@@ -70,6 +75,16 @@ export class User {
     nullable: false,
   })
   isActive: boolean;
+
+  @Column({
+    nullable: true,
+  })
+  resetPasswordToken: string;
+
+  @Column({
+    nullable: true,
+  })
+  resetPasswordTokenExpiresAt: Date;
 
   @CreateDateColumn()
   @Exclude()

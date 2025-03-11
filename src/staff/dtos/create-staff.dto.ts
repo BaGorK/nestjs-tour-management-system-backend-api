@@ -3,6 +3,7 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsPhoneNumber,
   IsString,
   MaxLength,
   MinLength,
@@ -33,6 +34,14 @@ export class CreateStaffDto {
   @IsNotEmpty()
   @IsEmail()
   email: string;
+
+  @ApiProperty({
+    description: 'Phone Number of the user',
+    example: '+251908005801',
+  })
+  @IsNotEmpty()
+  @IsPhoneNumber()
+  phoneNumber: string;
 
   @ApiProperty({
     description: 'Last Name of the staff member',
