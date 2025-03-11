@@ -16,6 +16,8 @@ import { FindCurrentActiveUserProvider } from './current/find-current-active-use
 import { FindOneUserByProvider } from './find-one-user-by.provider';
 import { FindOneUserWithBookingsProvider } from './find-one-user-with-bookings.provider';
 import { CreateGoogleUserProvider } from './social/create-google-user.provider';
+import { ForgotMyPasswordProvider } from './current/forgot-my-password.provider';
+import { ForgotPasswordDto } from '../dtos/forgot-password.dto';
 
 /**
  * User Service Provider
@@ -37,6 +39,8 @@ export class UsersService {
     private readonly updateUserProvider: UpdateUserProvider,
     private readonly findOneUserByProvider: FindOneUserByProvider,
     private readonly createGoogleUserProvider: CreateGoogleUserProvider,
+
+    private readonly forgotMyPasswordProvider: ForgotMyPasswordProvider,
 
     private readonly findOneUserWithBookingsProvider: FindOneUserWithBookingsProvider,
     private readonly findCurrentActiveUserProvider: FindCurrentActiveUserProvider,
@@ -106,5 +110,9 @@ export class UsersService {
 
   public async findCurrentActiveUser(id: string) {
     return this.findCurrentActiveUserProvider.findCurrentActiveUser(id);
+  }
+
+  public forgotMyPassword(forgotPasswordDto: ForgotPasswordDto) {
+    return this.forgotMyPasswordProvider.forgotMyPassword(forgotPasswordDto);
   }
 }

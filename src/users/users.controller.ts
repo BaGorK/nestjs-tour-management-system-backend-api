@@ -23,6 +23,9 @@ import { Roles } from 'src/common/enum/Roles.enum';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UsersService } from './providers/users.service';
+import { ForgotPasswordDto } from './dtos/forgot-password.dto';
+import { AuthType } from 'src/auth/enums/auth-type.enum';
+import { Auth } from 'src/auth/decorator/auth.decorator';
 
 /**
  * Users Controller
@@ -36,6 +39,22 @@ export class UsersController {
      */
     private readonly usersService: UsersService,
   ) {}
+
+  // forgot my password
+  @ApiOperation({
+    summary: 'Forgot My Password',
+    description:
+      'Forgot My Password. if the user forgotes his password use this endpoint to get a password reset url. either email or phoneNumber is required.',
+  })
+  @ApiBody({
+    required: true,
+    type: ForgotPasswordDto,
+  })
+  @Auth(AuthType.None)
+  @Post('forgot-password')
+  public forgotMyPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
+    return this.usersService.forgotMyPassword(forgotPasswordDto);
+  }
 
   /**
    * Find current active user

@@ -20,6 +20,8 @@ import { ReviewsModule } from './reviews/reviews.module';
 import { StaffModule } from './staff/staff.module';
 import { ToursModule } from './tours/tours.module';
 import { UsersModule } from './users/users.module';
+import { EmailModule } from './common/email/email.module';
+import { TwilioModule } from './common/twilio/twilio.module';
 
 @Module({
   imports: [
@@ -39,6 +41,7 @@ import { UsersModule } from './users/users.module';
     InterceptorsModule,
     FileUploadModule,
     PinnoLoggerModule,
+    EmailModule,
 
     ChapaModule.registerAsync({
       imports: [ConfigModule],
@@ -47,6 +50,8 @@ import { UsersModule } from './users/users.module';
         secretKey: configService.get('appConfig.chapaSecretKey'),
       }),
     }),
+
+    TwilioModule,
   ],
   controllers: [],
   providers: [
