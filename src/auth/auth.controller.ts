@@ -1,5 +1,5 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation } from '@nestjs/swagger';
 import { Auth } from './decorator/auth.decorator';
 import { RefreshTokenDto } from './dtos/refresh-token.dto';
 import { AuthType } from './enums/auth-type.enum';
@@ -8,7 +8,6 @@ import { SignInDto } from './providers/sign-in/dtos/sign-in.dto';
 import { SignUpDto } from './providers/sign-up/dtos/sign-up.dto';
 
 @Controller('auth')
-@ApiTags('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
