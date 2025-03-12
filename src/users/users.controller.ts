@@ -34,6 +34,7 @@ import { ForgotPasswordDto } from './dtos/forgot-password.dto';
 import { ResetPasswordDto } from './dtos/reset-password.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UsersService } from './providers/users.service';
+import { UpdatePasswordDto } from './dtos/update-password.dto';
 
 /**
  * Users Controller
@@ -114,6 +115,7 @@ export class UsersController {
     ),
   )
   @Post('update-me')
+  @HttpCode(HttpStatus.OK)
   public updateMe(
     @UploadedFile() profilePicture: Express.Multer.File,
     @Body() updateUserDto: UpdateUserDto,
@@ -124,6 +126,27 @@ export class UsersController {
         this.fileUploadService.getFilePath(profilePicture);
     }
     return this.usersService.update(id, updateUserDto);
+  }
+
+  // update my password
+  @ApiOperation({
+    summary: 'Update My Password',
+    description:
+      'Update My Password, use this route to update password by sending old, new and confrim password',
+  })
+  @ApiBody({
+    type: UpdatePasswordDto,
+    required: true,
+  })
+  @ApiBearerAuth()
+  @Auth(AuthType.Bearer)
+  @Post('update-my-password')
+  @HttpCode(HttpStatus.OK)
+  public updateMyPassword(
+    @Body() updatePasswordDto: UpdatePasswordDto,
+    @ActiveUser('sub') id: string,
+  ) {
+    return this.usersService.updateMyPassword(id, updatePasswordDto);
   }
 
   /**

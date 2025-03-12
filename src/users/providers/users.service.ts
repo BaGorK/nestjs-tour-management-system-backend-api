@@ -6,6 +6,8 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dtos/create-user.dto';
+import { ForgotPasswordDto } from '../dtos/forgot-password.dto';
+import { ResetPasswordDto } from '../dtos/reset-password.dto';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 import { IGoogleUser } from '../interfaces/google-user.interface';
 import { User } from '../user.entity';
@@ -13,14 +15,14 @@ import { CreateUserProvider } from './crud/create-user.provider';
 import { FindAllUsersProvider } from './crud/find-all-users.provider';
 import { UpdateUserProvider } from './crud/update-user.provider';
 import { FindCurrentActiveUserProvider } from './current/find-current-active-user.provider';
+import { ForgotMyPasswordProvider } from './current/forgot-my-password.provider';
+import { ResetMyPasswordProvider } from './current/reset-my-password.provider';
+import { UpdateMeProvider } from './current/update-me.provider';
+import { UpdateMyPasswordProvider } from './current/update-my-password.provider';
 import { FindOneUserByProvider } from './find-one-user-by.provider';
 import { FindOneUserWithBookingsProvider } from './find-one-user-with-bookings.provider';
 import { CreateGoogleUserProvider } from './social/create-google-user.provider';
-import { ForgotMyPasswordProvider } from './current/forgot-my-password.provider';
-import { ForgotPasswordDto } from '../dtos/forgot-password.dto';
-import { ResetMyPasswordProvider } from './current/reset-my-password.provider';
-import { ResetPasswordDto } from '../dtos/reset-password.dto';
-import { UpdateMeProvider } from './current/update-me.provider';
+import { UpdatePasswordDto } from '../dtos/update-password.dto';
 
 /**
  * User Service Provider
@@ -49,6 +51,7 @@ export class UsersService {
 
     private readonly findOneUserWithBookingsProvider: FindOneUserWithBookingsProvider,
     private readonly findCurrentActiveUserProvider: FindCurrentActiveUserProvider,
+    private readonly updateMyPasswordProvider: UpdateMyPasswordProvider,
   ) {}
 
   public async findAll() {
@@ -133,5 +136,12 @@ export class UsersService {
 
   public updateMe(id: string, updateUserDto: UpdateUserDto) {
     return this.updateMeProvider.updateMe(id, updateUserDto);
+  }
+
+  public updateMyPassword(id: string, updatePasswordDto: UpdatePasswordDto) {
+    return this.updateMyPasswordProvider.updateMyPassword(
+      id,
+      updatePasswordDto,
+    );
   }
 }
