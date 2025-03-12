@@ -84,6 +84,25 @@ export class UsersController {
     return this.usersService.resetMyPassword(resetToken, resetPasswordDto);
   }
 
+  @ApiOperation({
+    summary: 'Update Me',
+    description:
+      'Update Me, Use this route if a user want to update his data like name, email... etc.',
+  })
+  @ApiBody({
+    type: UpdateUserDto,
+    required: true,
+  })
+  @ApiBearerAuth()
+  @Auth(AuthType.Bearer)
+  @Post('update-me')
+  public updateMe(
+    @Body() updateUserDto: UpdateUserDto,
+    @ActiveUser('sub') id: string,
+  ) {
+    return this.usersService.update(id, updateUserDto);
+  }
+
   /**
    * Find current active user
    */

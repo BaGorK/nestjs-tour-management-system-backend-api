@@ -20,6 +20,7 @@ import { ForgotMyPasswordProvider } from './current/forgot-my-password.provider'
 import { ForgotPasswordDto } from '../dtos/forgot-password.dto';
 import { ResetMyPasswordProvider } from './current/reset-my-password.provider';
 import { ResetPasswordDto } from '../dtos/reset-password.dto';
+import { UpdateMeProvider } from './current/update-me.provider';
 
 /**
  * User Service Provider
@@ -44,6 +45,7 @@ export class UsersService {
 
     private readonly forgotMyPasswordProvider: ForgotMyPasswordProvider,
     private readonly resetMyPasswordProvider: ResetMyPasswordProvider,
+    private readonly updateMeProvider: UpdateMeProvider,
 
     private readonly findOneUserWithBookingsProvider: FindOneUserWithBookingsProvider,
     private readonly findCurrentActiveUserProvider: FindCurrentActiveUserProvider,
@@ -127,5 +129,9 @@ export class UsersService {
       resetToken,
       resetPasswordDto,
     );
+  }
+
+  public updateMe(id: string, updateUserDto: UpdateUserDto) {
+    return this.updateMeProvider.updateMe(id, updateUserDto);
   }
 }
