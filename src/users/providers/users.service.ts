@@ -18,6 +18,8 @@ import { FindOneUserWithBookingsProvider } from './find-one-user-with-bookings.p
 import { CreateGoogleUserProvider } from './social/create-google-user.provider';
 import { ForgotMyPasswordProvider } from './current/forgot-my-password.provider';
 import { ForgotPasswordDto } from '../dtos/forgot-password.dto';
+import { ResetMyPasswordProvider } from './current/reset-my-password.provider';
+import { ResetPasswordDto } from '../dtos/reset-password.dto';
 
 /**
  * User Service Provider
@@ -41,6 +43,7 @@ export class UsersService {
     private readonly createGoogleUserProvider: CreateGoogleUserProvider,
 
     private readonly forgotMyPasswordProvider: ForgotMyPasswordProvider,
+    private readonly resetMyPasswordProvider: ResetMyPasswordProvider,
 
     private readonly findOneUserWithBookingsProvider: FindOneUserWithBookingsProvider,
     private readonly findCurrentActiveUserProvider: FindCurrentActiveUserProvider,
@@ -114,5 +117,15 @@ export class UsersService {
 
   public forgotMyPassword(forgotPasswordDto: ForgotPasswordDto) {
     return this.forgotMyPasswordProvider.forgotMyPassword(forgotPasswordDto);
+  }
+
+  public resetMyPassword(
+    resetToken: string,
+    resetPasswordDto: ResetPasswordDto,
+  ) {
+    return this.resetMyPasswordProvider.resetMyPassword(
+      resetToken,
+      resetPasswordDto,
+    );
   }
 }

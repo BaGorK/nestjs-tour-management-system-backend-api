@@ -26,6 +26,7 @@ import { UsersService } from './providers/users.service';
 import { ForgotPasswordDto } from './dtos/forgot-password.dto';
 import { AuthType } from 'src/auth/enums/auth-type.enum';
 import { Auth } from 'src/auth/decorator/auth.decorator';
+import { ResetPasswordDto } from './dtos/reset-password.dto';
 
 /**
  * Users Controller
@@ -52,8 +53,35 @@ export class UsersController {
   })
   @Auth(AuthType.None)
   @Post('forgot-password')
+  @HttpCode(HttpStatus.OK)
   public forgotMyPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
     return this.usersService.forgotMyPassword(forgotPasswordDto);
+  }
+
+  // reset my password
+  @ApiOperation({
+    summary: 'Reset My Password',
+    description:
+      'Reset My Password. Use this route to reset you password  incase you forgot it. you will recieve an email or sms message with the reset url.',
+  })
+  @ApiBody({
+    type: ResetPasswordDto,
+    required: true,
+  })
+  @ApiParam({
+    name: 'resetToken',
+    required: true,
+    description: 'reset token you get from the email or sms reset url',
+    example: '793b574f-9e87-4f85-a592-3d9f6ae0b541',
+  })
+  @Auth(AuthType.None)
+  @Post('reset-password/:resetToken')
+  @HttpCode(HttpStatus.OK)
+  public resetMyPassword(
+    @Param('resetToken') resetToken: string,
+    @Body() resetPasswordDto: ResetPasswordDto,
+  ) {
+    return this.usersService.resetMyPassword(resetToken, resetPasswordDto);
   }
 
   /**
