@@ -17,6 +17,7 @@ import { User } from './user.entity';
 import { UsersController } from './users.controller';
 import { EmailModule } from 'src/common/email/email.module';
 import { TwilioModule } from 'src/common/twilio/twilio.module';
+import { FileUploadModule } from 'src/common/file-upload/file-upload.module';
 
 @Module({
   controllers: [UsersController],
@@ -39,6 +40,7 @@ import { TwilioModule } from 'src/common/twilio/twilio.module';
     TwilioModule,
     TypeOrmModule.forFeature([User]),
     forwardRef(() => AuthModule),
+    FileUploadModule,
   ],
   exports: [UsersService],
 })

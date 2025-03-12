@@ -69,4 +69,12 @@ export class CreateUserDto {
     message: 'password and password confirm do not match',
   })
   passwordConfirm: string;
+
+  @ApiProperty({
+    description: 'profile image of the user.',
+    type: 'string',
+    format: 'binary',
+    required: true,
+  })
+  profilePicture: string;
 }

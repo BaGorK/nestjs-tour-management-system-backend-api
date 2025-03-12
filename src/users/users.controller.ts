@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -9,24 +10,30 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBearerAuth,
   ApiBody,
+  ApiConsumes,
   ApiOperation,
   ApiParam,
 } from '@nestjs/swagger';
 import { ActiveUser } from 'src/auth/decorator/active-user.decorator';
+import { Auth } from 'src/auth/decorator/auth.decorator';
 import { Role } from 'src/auth/decorator/role.decorator';
+import { AuthType } from 'src/auth/enums/auth-type.enum';
 import { ActiveUserData } from 'src/auth/interfaces/active-user-data.interface';
 import { Roles } from 'src/common/enum/Roles.enum';
+import { FileUploadService } from 'src/common/file-upload/file-upload.service';
+import { FileUploadDirNames } from 'src/lib/constants/file-upload-dir-names';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { ForgotPasswordDto } from './dtos/forgot-password.dto';
+import { ResetPasswordDto } from './dtos/reset-password.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UsersService } from './providers/users.service';
-import { ForgotPasswordDto } from './dtos/forgot-password.dto';
-import { AuthType } from 'src/auth/enums/auth-type.enum';
-import { Auth } from 'src/auth/decorator/auth.decorator';
-import { ResetPasswordDto } from './dtos/reset-password.dto';
 
 /**
  * Users Controller
@@ -39,6 +46,8 @@ export class UsersController {
      * Injecting users service
      */
     private readonly usersService: UsersService,
+
+    private readonly fileUploadService: FileUploadService,
   ) {}
 
   // forgot my password
@@ -95,11 +104,25 @@ export class UsersController {
   })
   @ApiBearerAuth()
   @Auth(AuthType.Bearer)
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(
+    FileInterceptor(
+      'profilePicture',
+      FileUploadService.saveImageToStorage({
+        dirName: FileUploadDirNames.user,
+      }),
+    ),
+  )
   @Post('update-me')
   public updateMe(
+    @UploadedFile() profilePicture: Express.Multer.File,
     @Body() updateUserDto: UpdateUserDto,
     @ActiveUser('sub') id: string,
   ) {
+    if (profilePicture) {
+      updateUserDto.profilePicture =
+        this.fileUploadService.getFilePath(profilePicture);
+    }
     return this.usersService.update(id, updateUserDto);
   }
 
@@ -191,9 +214,27 @@ export class UsersController {
     type: CreateUserDto,
     description: 'create user dto',
   })
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(
+    FileInterceptor(
+      'profilePicture',
+      FileUploadService.saveImageToStorage({
+        dirName: FileUploadDirNames.user,
+      }),
+    ),
+  )
   @Role(Roles.ADMIN)
   @Post()
-  public createUser(@Body() createUserDto: CreateUserDto) {
+  public createUser(
+    @UploadedFile() profilePicture: Express.Multer.File,
+    @Body() createUserDto: CreateUserDto,
+  ) {
+    if (!profilePicture) {
+      throw new BadRequestException('Profile picture is required.');
+    }
+    createUserDto.profilePicture =
+      this.fileUploadService.getFilePath(profilePicture);
+
     return this.usersService.create(createUserDto);
   }
 
@@ -216,10 +257,24 @@ export class UsersController {
   @Role(Roles.ADMIN)
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(
+    FileInterceptor(
+      'profilePicture',
+      FileUploadService.saveImageToStorage({
+        dirName: FileUploadDirNames.user,
+      }),
+    ),
+  )
   public updateUser(
+    @UploadedFile() profilePicture: Express.Multer.File,
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
+    if (profilePicture) {
+      updateUserDto.profilePicture =
+        this.fileUploadService.getFilePath(profilePicture);
+    }
     return this.usersService.update(id, updateUserDto);
   }
 
