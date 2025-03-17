@@ -1,14 +1,19 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  ArrayMaxSize,
+  ArrayMinSize,
+  IsArray,
   IsEnum,
   IsInt,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
+  IsUUID,
   Min,
 } from 'class-validator';
 import { TourDifficulty } from '../enums/tour-difficulty.enum';
+import { Transform } from 'class-transformer';
 
 export class CreateTourDto {
   @ApiProperty({
@@ -96,4 +101,31 @@ export class CreateTourDto {
     maxItems: 5,
   })
   additionalImages: string[];
+
+  @ApiProperty({
+    description: 'tour guides, put the id of the tour guides.',
+    type: 'array',
+    items: {
+      type: 'string',
+      example: 'fd3e487f-4049-4bc3-8518-58872bda8553',
+    },
+    required: true,
+    minItems: 1,
+    maxItems: 5,
+  })
+  @Transform(({ value }) => {
+    if (!value) return []; // Ensure it's always an array
+    if (Array.isArray(value)) return value; // Already an array, return as is
+    if (typeof value === 'string') {
+      return value.includes(',')
+        ? value.split(',').map(v => v.trim())
+        : [value];
+    }
+    return [];
+  })
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(5)
+  @IsUUID('4', { each: true })
+  guides: string[];
 }

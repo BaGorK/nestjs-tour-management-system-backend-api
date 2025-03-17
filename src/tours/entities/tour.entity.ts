@@ -76,9 +76,12 @@ export class Tour {
   @OneToMany(() => Review, review => review.tour, { cascade: true })
   reviews: Review[];
 
-  @ManyToMany(() => Staff, staff => staff.tours, { cascade: true })
+  @ManyToMany(() => Staff, staff => staff.tours, {
+    cascade: true,
+    nullable: false,
+  })
   @JoinTable()
-  guids: Staff[];
+  guides: Staff[];
 
   // TODO:
   // startDates: Date[];

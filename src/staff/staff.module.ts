@@ -12,6 +12,7 @@ import { StaffService } from './providers/staff.service';
 import { StaffController } from './staff.controller';
 import { Staff } from './staff.entity';
 import { UsersModule } from 'src/users/users.module';
+import { ToursModule } from 'src/tours/tours.module';
 
 @Module({
   controllers: [StaffController],
@@ -26,6 +27,7 @@ import { UsersModule } from 'src/users/users.module';
   ],
   imports: [
     forwardRef(() => AuthModule),
+    forwardRef(() => ToursModule),
     UsersModule,
     FileUploadModule,
     TypeOrmModule.forFeature([Staff]),

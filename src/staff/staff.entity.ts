@@ -55,7 +55,7 @@ export class Staff {
   })
   isActive: boolean;
 
-  @ManyToMany(() => Tour, tour => tour.guids, { onDelete: 'CASCADE' })
+  @ManyToMany(() => Tour, tour => tour.guides, { onDelete: 'CASCADE' })
   tours: Tour[];
 
   @CreateDateColumn()

@@ -27,10 +27,21 @@ export class CreateStaffProvider {
   public async createStaff(createStaffDto: CreateStaffDto) {
     console.log('create staff provider...');
 
-    let staff = await this.findOneStaffByProvider.findOneStaffBy({
-      email: createStaffDto.email,
-      phoneNumber: createStaffDto.phoneNumber,
-    });
+    let staff = undefined;
+
+    try {
+      staff = await this.staffsRepository.findOne({
+        where: [
+          { email: createStaffDto.email },
+          { phoneNumber: createStaffDto.phoneNumber },
+        ],
+      });
+    } catch (err) {
+      console.log(err);
+      throw new InternalServerErrorException(
+        'Unable to find staff member, please try again later.',
+      );
+    }
 
     if (staff) {
       throw new BadRequestException(

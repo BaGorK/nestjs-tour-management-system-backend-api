@@ -1,5 +1,11 @@
-import { Injectable, RequestTimeoutException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  RequestTimeoutException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { StaffService } from 'src/staff/providers/staff.service';
+import { Staff } from 'src/staff/staff.entity';
 import { CreateTourDto } from 'src/tours/dtos/create-tour.dto';
 import { TourImages } from 'src/tours/entities/tour-images.entity';
 import { Tour } from 'src/tours/entities/tour.entity';
@@ -11,25 +17,38 @@ export class CreateTourProvider {
     @InjectRepository(Tour)
     private readonly toursRepository: Repository<Tour>,
 
+    private readonly staffService: StaffService,
+
     @InjectRepository(TourImages)
     private readonly tourImagesRepository: Repository<TourImages>,
   ) {}
 
   public async createTour(createTourDto: CreateTourDto) {
-    // console.log('started');
-    // await new Promise(resolve => setTimeout(resolve, 11 * 1000));
-    // console.log('ended...');
-    // create images first
     const additionalImages = createTourDto.additionalImages.map(imagePath =>
       this.tourImagesRepository.create({
         url: imagePath,
       }),
     );
 
+    const guides: Staff[] | undefined = [];
+
+    for (const id of createTourDto.guides) {
+      const guide = await this.staffService.findOneStaffBy({ id });
+      if (!guide) {
+        throw new BadRequestException('guide not found when creating a tour');
+      }
+      guides.push(guide);
+    }
+
+    if (!guides?.length) {
+      throw new BadRequestException('a tour must have atleast one guide.');
+    }
+
     // create tour and the relation
     let tour = this.toursRepository.create({
       ...createTourDto,
       additionalImages,
+      guides,
     });
 
     try {

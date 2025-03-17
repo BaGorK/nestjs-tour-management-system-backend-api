@@ -23,7 +23,7 @@ export class GetTourByIdProvider {
       tour = await this.toursRepository.findOne({
         where: { id },
         relations: {
-          guids: true,
+          guides: true,
         },
       });
     } catch (err) {
