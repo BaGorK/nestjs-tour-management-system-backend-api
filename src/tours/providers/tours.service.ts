@@ -9,6 +9,8 @@ import { GetTourByIdProvider } from './crud/get-tour-by-id.provider';
 import { UpdateTourProvider } from './crud/update-tour.provider';
 import { FindOneTourByProvider } from './find-one-tour-by.provider';
 import { FindTourWithBookingsProvider } from './find-tour-with-bookings.provider';
+import { FindTourWithAllDetailsProvider } from './find-tour-with-all-details.provider';
+import { FindTourWithReviewsProvider } from './find-tour-with-reviews.provider';
 
 @Injectable()
 export class ToursService {
@@ -20,6 +22,8 @@ export class ToursService {
     private readonly updateTourProvider: UpdateTourProvider,
     private readonly findOneTourByProvider: FindOneTourByProvider,
     private readonly findTourWithBookingsProvider: FindTourWithBookingsProvider,
+    private readonly findTourWithAllDetailsProvider: FindTourWithAllDetailsProvider,
+    private readonly findTourWithReviewsProvider: FindTourWithReviewsProvider,
   ) {}
 
   // get all tours
@@ -65,5 +69,15 @@ export class ToursService {
   // find tour with booking details
   public async findTourWithBookings(id: string) {
     return this.findTourWithBookingsProvider.findTourWithBookings(id);
+  }
+
+  // find tour with review details
+  public async findTourWithReviews(id: string) {
+    return this.findTourWithReviewsProvider.findTourWithReviews(id);
+  }
+
+  // find tour with all details
+  public async findTourWithAllDetails(id: string) {
+    return this.findTourWithAllDetailsProvider.findTourWithAllDetails(id);
   }
 }

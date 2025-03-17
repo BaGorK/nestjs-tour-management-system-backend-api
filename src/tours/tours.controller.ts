@@ -38,7 +38,7 @@ export class ToursController {
   ) {}
   // find tour with booking details
   @ApiOperation({
-    summary: 'Find Tour with Booking Details',
+    summary: 'Find Tour By ID with Booking Details',
   })
   @ApiParam({
     name: 'id',
@@ -51,6 +51,39 @@ export class ToursController {
   @Get('with-bookings/:id')
   public findTourWithBookings(@Param('id', ParseUUIDPipe) id: string) {
     return this.toursService.findTourWithBookings(id);
+  }
+
+  // find tour with booking details
+  @ApiOperation({
+    summary: 'Find Tour By ID with Review Details',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'tour ID',
+    required: true,
+    example: 'ccd3051f-b7df-4cd4-8ae6-eb02045f6dfd',
+  })
+  @Auth(AuthType.None)
+  @Get('with-reviews/:id')
+  public findTourWithReviews(@Param('id', ParseUUIDPipe) id: string) {
+    return this.toursService.findTourWithReviews(id);
+  }
+
+  // find tour with all details
+  @ApiOperation({
+    summary: 'Find Tour By ID with All Details',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'tour ID',
+    required: true,
+    example: 'ccd3051f-b7df-4cd4-8ae6-eb02045f6dfd',
+  })
+  @ApiBearerAuth()
+  @Role(Roles.ADMIN, Roles.LEAD_GUIDE, Roles.GUIDE)
+  @Get('tour-with-all-details/:id')
+  public findTourWithAllDetails(@Param('id', ParseUUIDPipe) id: string) {
+    return this.toursService.findTourWithAllDetails(id);
   }
 
   // get all tours
