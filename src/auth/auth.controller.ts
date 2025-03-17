@@ -1,24 +1,38 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   HttpCode,
   HttpStatus,
   Post,
   Res,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiOperation } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+} from '@nestjs/swagger';
+import { Response } from 'express';
+import { FileUploadService } from 'src/common/file-upload/file-upload.service';
+import { FileUploadDirNames } from 'src/lib/constants/file-upload-dir-names';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from './constants/cookie-names.constant';
 import { Auth } from './decorator/auth.decorator';
 import { RefreshTokenDto } from './dtos/refresh-token.dto';
 import { AuthType } from './enums/auth-type.enum';
 import { AuthService } from './providers/auth.service';
 import { SignInDto } from './providers/sign-in/dtos/sign-in.dto';
 import { SignUpDto } from './providers/sign-up/dtos/sign-up.dto';
-import { Response } from 'express';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from './constants/cookie-names.constant';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly fileUploadService: FileUploadService,
+  ) {}
 
   @ApiOperation({
     summary: 'Sign in a user',
@@ -75,10 +89,30 @@ export class AuthController {
   @ApiBody({
     type: SignUpDto,
     description: 'Sign up a user',
+    required: true,
   })
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(
+    FileInterceptor(
+      'profilePicture',
+      FileUploadService.saveImageToStorage({
+        dirName: FileUploadDirNames.user,
+      }),
+    ),
+  )
   @Post('sign-up')
   @Auth(AuthType.None)
-  public async signUp(@Body() signUpDto: SignUpDto) {
+  public async signUp(
+    @Body() signUpDto: SignUpDto,
+    @UploadedFile() profilePicture: Express.Multer.File,
+  ) {
+    if (!profilePicture) {
+      throw new BadRequestException('Profile picture is required');
+    }
+
+    signUpDto.profilePicture =
+      this.fileUploadService.getFilePath(profilePicture);
+
     return this.authService.signUp(signUpDto);
   }
 

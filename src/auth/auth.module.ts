@@ -16,6 +16,7 @@ import { SignInProvider } from './providers/sign-in/sign-in.provider';
 import { SignUpProvider } from './providers/sign-up/sign-up.provider';
 import { GoogleAuthenticationController } from './social/google-authentication.controller';
 import { GoogleAuthenticationService } from './social/providers/google-authentication.service';
+import { FileUploadModule } from 'src/common/file-upload/file-upload.module';
 
 @Module({
   controllers: [AuthController, GoogleAuthenticationController],
@@ -33,6 +34,7 @@ import { GoogleAuthenticationService } from './social/providers/google-authentic
   ],
   exports: [AuthService, HashingProvider],
   imports: [
+    FileUploadModule,
     TypeOrmModule.forFeature([User]),
     forwardRef(() => UsersModule),
     forwardRef(() => StaffModule),
