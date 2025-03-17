@@ -29,11 +29,12 @@ export class CreateStaffProvider {
 
     let staff = await this.findOneStaffByProvider.findOneStaffBy({
       email: createStaffDto.email,
+      phoneNumber: createStaffDto.phoneNumber,
     });
 
     if (staff) {
       throw new BadRequestException(
-        'Staff member with this email address already exists',
+        'Staff member with this email/phoneNumber address already exists',
       );
     }
 

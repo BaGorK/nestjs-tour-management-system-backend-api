@@ -60,7 +60,17 @@ export class GoogleAuthenticationService implements OnModuleInit {
         authProvider: AuthProviderEnum.GOOGLE,
       });
 
-      return this.generateTokenProvider.generateToken(newUser);
+      // jwt sign the user
+      const { accessToken, refreshToken } =
+        await this.generateTokenProvider.generateToken(newUser);
+
+      return {
+        status: 'success',
+        message: 'sign in with google successful',
+        accessToken,
+        refreshToken,
+        data: newUser,
+      };
     } catch (err) {
       console.log(err);
       throw new UnauthorizedException('Invalid google token');

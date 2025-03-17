@@ -65,6 +65,7 @@ export class ResetMyPasswordProvider {
     return {
       status: 'success',
       message: 'password reset successfull, now you can login to your account.',
+      data: {},
     };
   }
 }

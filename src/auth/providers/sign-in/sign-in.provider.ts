@@ -4,21 +4,20 @@ import {
   Inject,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { AuthProviderEnum } from 'src/users/enums/auth-provider.enum';
 import { UsersService } from 'src/users/providers/users.service';
 import { HashingProvider } from '../hash-password/hashing.provider';
 import { GenerateTokenProvider } from '../jwt-token/generate-token.provider';
 import { SignInDto } from './dtos/sign-in.dto';
+import { StaffService } from 'src/staff/providers/staff.service';
 
 export class SignInProvider {
   constructor(
     @Inject(forwardRef(() => UsersService))
     private readonly usersService: UsersService,
+    private readonly staffService: StaffService,
 
     private readonly hashingProvider: HashingProvider,
-
-    private readonly jwtService: JwtService,
 
     private readonly generateTokenProvider: GenerateTokenProvider,
   ) {}
@@ -29,16 +28,20 @@ export class SignInProvider {
       const { email, password } = signInDto;
 
       // find a user by email
+      const staff = await this.staffService.findOneStaffBy({
+        email,
+      });
+
       const user = await this.usersService.findOneUserBy({
         email,
       });
 
-      if (!user) {
+      if (!staff && !user) {
         throw new BadRequestException('Invalid credentials');
       }
 
       // check if user signed up via email
-      if (user.authProvider !== AuthProviderEnum.EMAIL) {
+      if (!staff && user.authProvider !== AuthProviderEnum.EMAIL) {
         throw new UnprocessableEntityException(
           `need login via ${user.authProvider} provider, please sign in via ${user.authProvider} provider`,
         );
@@ -47,7 +50,7 @@ export class SignInProvider {
       // compare the password
       const isPasswordValid = await this.hashingProvider.comparePassword(
         password,
-        user.password,
+        staff.password || user.password,
       );
 
       if (!isPasswordValid) {
