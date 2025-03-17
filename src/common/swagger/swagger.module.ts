@@ -15,7 +15,7 @@ export class SwaggerConfigModule {
       .addServer(
         ENV === 'development'
           ? 'http://localhost:5000'
-          : 'https://tour-management-system.render.com',
+          : 'https://tour-management-system-backend-api.onrender.com',
       )
       .addBearerAuth() // Add Bearer token support
       .build();
