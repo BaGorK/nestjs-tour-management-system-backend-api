@@ -1,16 +1,19 @@
+import { Exclude } from 'class-transformer';
 import { Booking } from 'src/bookings/booking.entity';
+import { Review } from 'src/reviews/review.entity';
+import { Staff } from 'src/staff/staff.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { TourDifficulty } from '../enums/tour-difficulty.enum';
 import { TourImages } from './tour-images.entity';
-import { Exclude } from 'class-transformer';
-import { Review } from 'src/reviews/review.entity';
 
 @Entity()
 export class Tour {
@@ -72,6 +75,10 @@ export class Tour {
 
   @OneToMany(() => Review, review => review.tour, { cascade: true })
   reviews: Review[];
+
+  @ManyToMany(() => Staff, staff => staff.tours, { cascade: true })
+  @JoinTable()
+  guids: Staff[];
 
   // TODO:
   // startDates: Date[];

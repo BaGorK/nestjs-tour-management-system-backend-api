@@ -3,10 +3,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { StaffRole } from './enum/staff-role.enum';
+import { Tour } from 'src/tours/entities/tour.entity';
 
 @Entity()
 export class Staff {
@@ -52,6 +54,9 @@ export class Staff {
     nullable: false,
   })
   isActive: boolean;
+
+  @ManyToMany(() => Tour, tour => tour.guids, { onDelete: 'CASCADE' })
+  tours: Tour[];
 
   @CreateDateColumn()
   @Exclude()

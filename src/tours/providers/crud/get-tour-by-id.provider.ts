@@ -20,7 +20,12 @@ export class GetTourByIdProvider {
     let tour = undefined;
 
     try {
-      tour = await this.toursRepository.findOneBy({ id });
+      tour = await this.toursRepository.findOne({
+        where: { id },
+        relations: {
+          guids: true,
+        },
+      });
     } catch (err) {
       console.log(err);
       throw new InternalServerErrorException(
