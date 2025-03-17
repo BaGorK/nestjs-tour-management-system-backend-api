@@ -114,6 +114,7 @@ export class StaffController {
     example: '120932b9-e741-4560-a2d0-b60212a853d9',
   })
   @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
   @UseInterceptors(
     FileInterceptor(
       'profilePicture',
