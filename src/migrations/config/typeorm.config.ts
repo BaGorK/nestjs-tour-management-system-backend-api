@@ -11,13 +11,14 @@ const config = {
   username: `${process.env.DATABASE_USER}`,
   password: `${process.env.DATABASE_PASSWORD}`,
   database: `${process.env.DATABASE_NAME}`,
-  entities: ['dist/**/*.entity{.ts,.js}'],
+  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   migrations: ['src/migrations/*{.ts,.js}'],
   autoLoadEntities: true,
   synchronize: false,
-  ssl: {
-    rejectUnauthorized: true,
-  },
+  ssl:
+    process.env.NODE_ENV === 'development'
+      ? { rejectUnauthorized: true }
+      : false,
 };
 
 export default registerAs('typeorm', () => config);

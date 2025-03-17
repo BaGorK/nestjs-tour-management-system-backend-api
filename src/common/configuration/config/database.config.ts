@@ -1,7 +1,9 @@
 import { registerAs } from '@nestjs/config';
 
 export default registerAs('database', () => ({
-  port: Number(process.env.DATABASE_PORT || 5432),
+  port: process.env.DATABASE_PORT
+    ? parseInt(process.env.DATABASE_PORT, 10)
+    : 5432, // Default to 5432 if not set
   username: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
   host: process.env.DATABASE_HOST || 'localhost',
@@ -10,5 +12,5 @@ export default registerAs('database', () => ({
   synchronize:
     process.env.DATABASE_SYNCHRONIZE ??
     Boolean(process.env.NODE_ENV === 'development'),
-  rejectUnauthorized: Boolean(process.env.NODE_ENV === 'production'),
+  rejectUnauthorized: Boolean(process.env.NODE_ENV === 'development'),
 }));
