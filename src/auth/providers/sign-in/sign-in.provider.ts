@@ -50,7 +50,7 @@ export class SignInProvider {
       // compare the password
       const isPasswordValid = await this.hashingProvider.comparePassword(
         password,
-        staff.password || user.password,
+        staff ? staff.password : user.password,
       );
 
       if (!isPasswordValid) {
@@ -59,14 +59,14 @@ export class SignInProvider {
 
       // jwt sign the user
       const { accessToken, refreshToken } =
-        await this.generateTokenProvider.generateToken(user);
+        await this.generateTokenProvider.generateToken(staff ?? user);
 
       return {
         status: 'success',
         message: 'sign in successful',
         accessToken,
         refreshToken,
-        data: user,
+        data: staff ?? user,
       };
     } catch (err) {
       console.log(err);
