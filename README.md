@@ -24,11 +24,21 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
   
-![Screenshot from 2025-02-24 00-03-23](https://github.com/user-attachments/assets/049a7886-aee1-436c-a8d7-6a2fc128be41)
+![nestjs-tour-management-system-backend-api](https://github.com/user-attachments/assets/9bc1c956-6f0e-4cba-b8e6-84624bd46ae1)
+
+## Natours
+> note: this project is a redesign and rebuild of one my old project that was written in javascript [natours](https://github.com/BaGorK/natours)
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+* Nestjs Tour Management System Backend API
+  > Built Using Nestjs, Postgresql and typeorm
+* If you are a type of person who wants to learn by studying the project that other made and reading the source code, you can use this repo as a starting point
+  > it has features like jwt authentication and role based access controle, file upload, email sending with node mailer, sms message using twilio
+  > and many more crud and other techinques that I usually use.
+* Feel free to fork, contribute.
+* if you have any question, feel free ask.
+* Lets Learn together by DOING|CODING
 
 ## Project setup
 
