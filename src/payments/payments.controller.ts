@@ -13,7 +13,7 @@ import { ActiveUser } from 'src/auth/decorator/active-user.decorator';
 import { Auth } from 'src/auth/decorator/auth.decorator';
 import { AuthType } from 'src/auth/enums/auth-type.enum';
 import { ActiveUserData } from 'src/auth/interfaces/active-user-data.interface';
-import { UserRole } from 'src/users/enums/user-role.enum';
+import { Roles } from 'src/common/enum/Roles.enum';
 import { InitializeBookingPaymentDto } from './dtos/initialize-booking-pament.dto';
 import { VerifyBookingPaymentDto } from './dtos/verify-booking-payment.dto';
 import { PaymentsService } from './providers/payments.service';
@@ -41,7 +41,7 @@ export class PaymentsController {
     @ActiveUser() activeUserData: ActiveUserData,
   ) {
     if (
-      activeUserData.role === UserRole.USER &&
+      activeUserData.role === Roles.USER &&
       initializePaymentDto.user &&
       initializePaymentDto.user !== activeUserData.sub
     ) {

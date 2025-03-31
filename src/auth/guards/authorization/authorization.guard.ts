@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { REQUEST_USER_KEY } from 'src/auth/constants/auth.constants';
 import { ROLES_KEY } from 'src/auth/constants/role.constants';
 import { ActiveUserData } from 'src/auth/interfaces/active-user-data.interface';
-import { UserRole } from 'src/users/enums/user-role.enum';
+import { Roles } from 'src/common/enum/Roles.enum';
 
 @Injectable()
 export class AuthorizationGuard implements CanActivate {
@@ -18,10 +18,10 @@ export class AuthorizationGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const contextRoles = this.reflector.getAllAndOverride<UserRole[]>(
-      ROLES_KEY,
-      [context.getHandler(), context.getClass()],
-    );
+    const contextRoles = this.reflector.getAllAndOverride<Roles[]>(ROLES_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
 
     if (!contextRoles) {
       console.log('access granted...');
