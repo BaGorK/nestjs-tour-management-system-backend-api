@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Booking } from 'src/bookings/booking.entity';
-import { Review } from 'src/reviews/review.entity';
-import { Staff } from 'src/staff/staff.entity';
-import { TourImages } from 'src/tours/entities/tour-images.entity';
-import { Tour } from 'src/tours/entities/tour.entity';
-import { User } from 'src/users/user.entity';
+import { Booking } from 'src/api/bookings/booking.entity';
+import { Review } from 'src/api/reviews/review.entity';
+import { Staff } from 'src/api/staff/staff.entity';
+import { TourImages } from 'src/api/tours/entities/tour-images.entity';
+import { Tour } from 'src/api/tours/entities/tour.entity';
+import { User } from 'src/api/users/user.entity';
 
 @Module({
   imports: [
