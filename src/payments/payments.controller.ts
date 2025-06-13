@@ -66,7 +66,7 @@ export class PaymentsController {
     required: true,
   })
   @Auth(AuthType.None)
-  @Get('chapa-webhook/verify')
+  @Get('chapa/webhook/verify')
   public verifyBookingPayment(
     @Body() verifyBookingPaymentDto: VerifyBookingPaymentDto,
     @Headers('x-chapa-signature') chapaSignature: string,
